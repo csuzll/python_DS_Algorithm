@@ -66,3 +66,7 @@ print(infixTopostfix("( A + B ) * C - ( D - E ) * ( F + G )"))  #  A B + C * D E
 print(infixTopostfix("5 * 3 ** ( 4 - 2 )")) # 5 3 4 2 - ** *
 # print(infixTopostfix("( A + B ) * C - ( D - E ) ) * ( F + G)")) # 出错
 print(infixTopostfix("( 1 + 3 ) / ( ( 3 - 8 ) * 9 )")) # 1 3 + 3 8 - 9 * /
+
+print(infixTopostfix("( A + B ) * ( C + D ) * ( E + F )"))
+print(infixTopostfix("A + ( ( B + C ) * ( D + E ) )"))
+print(infixTopostfix("A * B * C * D + E + F"))
