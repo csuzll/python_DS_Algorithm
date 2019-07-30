@@ -85,8 +85,8 @@ class MyHashMap:
             self.hashmap[hashkey][self.pos(key)] = None
 
 
-
-class MyHashMap(object):
+# 实现方法3
+class MyHashMap3(object):
 
     def __init__(self):
         """
