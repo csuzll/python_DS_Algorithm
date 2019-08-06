@@ -15,6 +15,15 @@ class HashTable:
     def hashfuction(self, key, size):
         return key % size
 
+    # # 字符串的哈希函数，加权方法
+    # def string_hashfuction(self, keystr):
+    #     hashvalue = 0
+    #     for i, c in enumerate(keystr):
+    #         hashvalue += (i+1) * ord(c)
+    #     print(hashvalue)
+    #     hashvalue = hashvalue % self.size
+    #     return hashvalue
+
     # 冲突解决: 间隔为1的线性探测
     def rehash(self, oldhash, size):
         return (oldhash+1) % size
@@ -143,9 +152,12 @@ class HashTable:
     def __delitem__(self, key):
         self.delet(key)
 
-    # # 实现in方法（没能实现）
-    # def __contains__(self, key):
-    #     return key in self.slots
+    # 实现in方法（有点问题）
+    def __contains__(self, key):
+        isIn = False
+        if key in self.slots:
+            isIn = True
+        return isIn
 
     # 支持以"len(HashTable)"获取key的数量
     def __len__(self):
@@ -176,3 +188,6 @@ print(H[99])
 # print(H.slots)
 # print(H.data)
 # print(len(H))
+
+if 77 in H:
+    print(True)
