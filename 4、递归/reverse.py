@@ -1,4 +1,4 @@
-# 将字符串反转
+# 递归将字符串反转
 def reverse(aString):
     if len(aString) <= 1:
         return aString
