@@ -5,7 +5,7 @@ def mergeSort(alist):
 
     if len(alist) > 1:
         mid = len(alist) // 2
-        #  注意：使用切片的方式空间复杂度较高，这里需要改进
+        # 注意: 使用切片的方式空间复杂度较高，这里需要改进
         lefthalf = alist[:mid] # 左半部分列表
         righthalf = alist[mid:] # 右半部分列表
 
@@ -15,9 +15,9 @@ def mergeSort(alist):
 
 
         # 排序子序列，并合并
-        i = 0
-        j = 0
-        k = 0 
+        i = 0 # 左列表索引
+        j = 0 # 右列表索引
+        k = 0 # 总列表索引
         # i为左侧子列表的索引，j为右侧子列表的索引
         while i < len(lefthalf) and j < len(righthalf):
             if lefthalf[i] <= righthalf[j]: # 左侧列表的当前元素更小或一样大
@@ -41,4 +41,50 @@ def mergeSort(alist):
 
 alist = [54,26,93,17,77,31,44,55,20]
 mergeSort(alist)
+print(alist)
+
+### 改进归并排序，不使用切片操作，传递序号
+def mergeSort2(alist, first=0, last=None):
+    # 让下面递归传上来的元素个数不改变，而只是传递序号
+    last = len(alist) if last==None else last
+
+    print("Splitting: ", alist, "first: ", first, "last: ", last)
+
+    # 子列表长度大于1
+    if (last - first > 1):
+        # 一分为二
+        mid = (first + last) // 2
+        mergeSort2(alist, first, mid) # 左部分
+        mergeSort2(alist, mid, last) # 右部分
+
+        # 排序子序列，并合并
+        i = first # 左列表索引
+        j = mid # 右列表索引
+        tmplist = [] # 用来暂存合并的列表
+
+        # 左右子序列比较
+        while i < mid and j < last:
+            if alist[i] <= alist[j]:
+                tmplist.append(alist[i])
+                i += 1
+            else:
+                tmplist.append(alist[j])
+                j += 1
+        # 左序列剩余
+        while i < mid:
+            tmplist.append(alist[i])
+            i += 1
+        # 右序列剩余
+        while j < last:
+            tmplist.append(alist[j])
+            j += 1
+
+        # 将tmplist数据复制到alist
+        for tmpindex, index in enumerate(range(first, last)):
+            alist[index] = tmplist[tmpindex]
+
+        print("Merging: ", alist, "first: ", first, "last: ", last)
+
+alist = [54,26,93,17,77,31,44,55,20]
+mergeSort2(alist)
 print(alist)
