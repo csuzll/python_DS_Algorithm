@@ -12,6 +12,7 @@
 """
 
 # 快速排序，pivot选择为待排序列表中的第一项
+# 这种写法时间复杂度为O(logN)
 def quickSort(alist, first=0, last=None):
     last = len(alist)-1 if last == None else last
     if first < last:
@@ -22,8 +23,8 @@ def quickSort(alist, first=0, last=None):
 
 def partition(alist, first, last):
     pivotvalue = alist[first]  # 基准值
-    leftmark = first+1 # 左标记    
-    rightmark = last # 右标记
+    leftmark = first+1 # 左界    
+    rightmark = last # 右界
 
     done = False
     while not done:
@@ -86,10 +87,10 @@ print(alist)
 
 
 # 使用三位取中设置枢纽值实现快速排序
-# 此代码实现空间复杂度较高（需要改进）
+# 此代码实现空间复杂度较高（需要改进），时间复杂度为O(NlogN)
 def quickSort3(alist):
-    if not alist:
-        return []
+    if len(alist) <= 1:
+        return alist
     else:
         threelist = [alist[0], alist[-1], alist[len(alist) // 2]] # 第一，最末，中间元素组成的列表
         pivotvalue = sorted(threelist)[1]  # 中位数，枢纽值
