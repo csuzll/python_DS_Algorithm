@@ -1,3 +1,13 @@
+# 冒泡排序
+"""
+遍历n-1遍要排序的数列，一次比较两个元素，如果他们的顺序错误就交换这两个元素。
+
+时间复杂度:O(N^2)
+空间复杂度:O(1)
+
+稳定
+"""
+
 # 实现冒泡排序(in place)
 def bubbleSort(alist):
     # 进行len(alist)-1轮遍历完成排序
@@ -14,7 +24,7 @@ print(alist)
 
 
 # 改进冒泡排序，遍历期间没有交换，则认为已排序，可以停止。
-# 通过设置exchange是否交互标志
+# 通过设置exchange是否交换标志
 def shortBubbleSort(alist):
     exchange = True # 是否交换标志 
     passnum = len(alist) - 1 # 最多进行len(alist)-1轮遍历就可以完成排序
@@ -28,4 +38,23 @@ def shortBubbleSort(alist):
 
 alist = [54,26,93,17,77,31,44,55,20]
 shortBubbleSort(alist)
+print(alist)
+
+# 改进冒泡排序2，记录某次遍历时最后发生数据交换的位置，这个位置之后的数据显然已经有序，不用再排序了。
+# 因此通过记录最后发生数据交换的位置就可以确定下次循环的范围了。
+def bubbleSort2(alist):
+    length = len(alist)
+    k = length # k为循环的范围，初值值为length
+    for i in range(length):
+        flag = True
+        for j in range(1, k): # 只遍历到最后交换的位置即可
+            if alist[j-1] > alist[j]:
+                alist[j-1], alist[j] = alist[j], alist[j-1]
+                k = j  # 记录最后交换的位置
+                flag = False
+        if flag:
+            break    
+
+alist = [54,26,93,17,77,31,44,55,20]
+bubbleSort2(alist)
 print(alist)

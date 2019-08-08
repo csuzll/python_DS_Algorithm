@@ -1,4 +1,14 @@
 # 希尔排序
+"""
+把元素按下标的增量序列分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，
+每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。
+
+时间复杂度:O(NlogN)
+空间复杂度:O(1)
+
+不稳定
+"""
+
 
 # 希尔排序需要的插入排序
 def gapInsertSort(alist, start, gap):
@@ -30,4 +40,22 @@ def shellSort(alist):
 
 alist = [54,26,93,17,77,31,44,55,20]
 shellSort(alist)
+print(alist)
+
+
+# 上述代码写为一个函数
+def shellSort2(alist):
+    gap = len(alist)
+
+    while gap > 1:
+        gap = gap // 2
+
+        for i in range(gap, len(alist)):
+            for j in range(i % gap, i, gap):
+                if alist[i] < alist[j]:
+                    alist[i], alist[j] = alist[j], alist[i]
+    return alist
+
+alist = [54,26,93,17,77,31,44,55,20]
+shellSort2(alist)
 print(alist)

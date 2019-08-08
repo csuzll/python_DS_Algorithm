@@ -1,3 +1,15 @@
+# 快速排序
+"""
+
+快速排序通常明显比同为Ο(n log n)的其他算法更快，因此常被采用。
+
+时间复杂度:O(nlogn)
+空间复杂度:O(logn)到O(n)
+
+不稳定
+"""
+
+
 # 快速排序，pivot选择为待排序列表中的第一项
 def quickSort(alist, first=0, last=None):
     last = len(alist)-1 if last == None else last
