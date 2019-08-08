@@ -62,3 +62,24 @@ def shellSort2(alist):
 alist = [54,26,93,17,77,31,44,55,20]
 shellSort2(alist)
 print(alist)
+
+# 或者下面这个
+def shellSort3(alist):
+    length = len(alist)
+
+    gap = 1
+
+    while gap < length // 3:
+        gap = gap * 3 + 1 # 动态定义间隔序列
+    while gap > 0:
+        for i in range(gap, length):
+            curNum, preIndex = alist[i], i - gap # curNum 保存当前待插入的数
+            while preIndex >=0 and curNum < alist[preIndex]: 
+                alist[preIndex + gap] = alist[preIndex] # 将比 curNum 大的元素向后移动
+                preIndex -= gap
+            alist[preIndex+gap] = curNum # 待插入的数的正确位置
+        gap //= 3  # 下一个动态间隔
+
+alist = [54,26,93,17,77,31,44,55,20]
+shellSort3(alist)
+print(alist)
