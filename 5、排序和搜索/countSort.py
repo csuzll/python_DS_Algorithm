@@ -1,28 +1,41 @@
 # 计数排序
+"""
+对原列表中的数值进行计数，主要有以下两种计数方法。
+
+时间复杂度: 平均O(N+k)，最好O(N+k), 最坏O(N+k)
+空间复杂度: O(k)
+
+稳定
+"""
 
 # 第一种: 待排序的数值作为计数列表的下标，统计每个数值的个数，然后依次输出。
+# 改进了一下，计数数组的个数为最大值减去最小值的个数。这样可以缩小计数数组的长度。
 def countSort(alist):
     length = len(alist)  # 列表长度
     maxvalue = max(alist) # 列表最大值
-    count = [0] * (maxvalue+1) # 构造计数数组，长度为maxvalue+1
-    sortedIndex = 0 # 索引
+    minvalue = min(alist) # 列表最小值
 
-    # 将alist中的每个数作为count的下标，count的值为每个下标在原列表中出现的次数
+    countlen = maxvalue - minvalue + 1 # 计数数组长度
+    count = [0] * countlen # 构造计数数组
+
+    # 将alist中的每个数减去最小值作为count的下标，count的值为每个下标在原列表中出现的次数
     for i in range(length):
-        count[alist[i]] += 1
+        count[alist[i]-minvalue] += 1
 
     # 将count中值大于0的索引按顺序输出即为排序
-    for i in range(maxvalue+1):
-        while count[i] > 0:
-            alist[sortedIndex] = i
+    sortedIndex = 0 # 索引
+    current = minvalue
+
+    for i in count:
+        while i > 0:
+            alist[sortedIndex] = current
             sortedIndex += 1
-            count[i] -= 1
-    return alist
+            i -= 1
+        current += 1
 
 alist = [54,26,93,17,77,31,44,55,20]
 countSort(alist)
 print(alist)
-
 
 
 # 第二种: 给定的输入序列中的每一个元素x，确定该序列中值小于等于x元素的个数，然后将x直接存放到最终的排序序列的正确位置上。
