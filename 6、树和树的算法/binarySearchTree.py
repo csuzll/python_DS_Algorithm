@@ -82,7 +82,7 @@ class BinarySearchTree:
         else:
             return False
 
-    # 删除指定的键
+    # 删除指定的键值对
     def delete(self, key):
         if self.size > 1: # 树有多个结点
             nodeToRemove = self._get(key, self.root) # 查找要删除的结点
@@ -97,7 +97,7 @@ class BinarySearchTree:
         else: # 树只有一个结点，且与要删除的键不等
             raise KeyError("Error, key not in tree")
 
-    # 移除函数
+    # 移除函数(size>1的树中的结点的移除)
     def remove(self, currentNode):
         if currentNode.isLeaf(): # 当前结点为叶子结点，没有子结点
             # 删除当前结点并删除当前结点的父结点对该结点的引用
@@ -106,7 +106,10 @@ class BinarySearchTree:
             else: # 当前结点为为右叶子结点
                 currentNode.parent.rightChild = None
         else currentNode.hasBothChildren(): # 当前结点有两个子结点
-            pass
+            succ = currentNode.findSuccessor() # 找到当前结点的后继结点
+            succ.spliceOut() # 删除后继结点
+            currentNode.key = succ.key # 当前结点的key设置为后继结点的key
+            currentNode.payload = succ.payload # 当前结点的payload设置为后继结点的payload
         else: # 当前结点有1个子结点
             if currentNode.hasLeftChild(): # 当前结点的子结点为左子结点
                 if currentNode.isLeftChild(): # 当前结点为其父结点的左子结点
@@ -115,24 +118,73 @@ class BinarySearchTree:
                 elif currentNode.isRightChild(): # 当前结点为其父结点的右子结点
                     currentNode.leftChild.parent = currentNode.parent # 当前结点的左子结点的父引用指向当前结点的父结点
                     currentNode.parent.rightChild = currentNode.leftChild # 当前结点的父结点的右子结点引用指向当前结点的左子结点
-                else: # 当前结点没有符级，即它是根
-                    # 在跟上调用replaceNodeData方法来替换key,payload,leftchild,rightchild
+                else: # 当前结点没有父级，即它是根
+                    # 在根上调用replaceNodeData方法来替换key,payload,leftchild,rightchild
                     currentNode.replaceNodeData(currentNode.leftChild.key, 
                         currentNode.leftChild.payload, 
                         currentNode.leftChild.leftChild,
                         currentNode.leftChild.rightChild)
             else: # 当前结点的子结点为右子结点
-                if currentNode.isLeftChild():
-                    currentNode.rightChild.parent = currentNode.parent
-                    currentNode.parent.leftChild = currentNode.rightChild
-                elif currentNode.isRightChild():
-                    currentNode.rightChild.parent = currentNode.parent
-                    currentNode.parent.rightChild = currentNode.rightChild
-                else:
+                if currentNode.isLeftChild(): # 当前结点为其父结点的右子结点
+                    currentNode.rightChild.parent = currentNode.parent # 当前结点的右子结点的父引用指向当前结点的父结点
+                    currentNode.parent.leftChild = currentNode.rightChild # 当前结点的父结点的左子结点引用指向当前结点的右子结点
+                elif currentNode.isRightChild(): # 当前结点为其父结点的右子结点
+                    currentNode.rightChild.parent = currentNode.parent # 当前结点的右子结点的父引用指向当前结点的父结点
+                    currentNode.parent.rightChild = currentNode.rightChild # 当前结点的父结点的右子结点引用指向当前结点的右子结点
+                else: # 当前结点没有父级，即它是根
+                    # 在根上调用replaceNodeData方法来替换key,payload,leftchild,rightchild
                     currentNode.replaceNodeData(currentNode.rightChild.key,
                         currentNode.rightChild.payload,
                         currentNode.rightChild.leftChild,
                         currentNode.rightChild.rightChild)
+
+
+    # 子树中的最小键(任何二叉查找树中的最小值键是树的最左子结点。)
+    def findMin(self):
+        current = self
+        # 通过简单地循环树中每个节点的左子结点，直到它到达没有左子结点的结点
+        while current.hasLeftChild:
+            current = current.leftChild
+        return current
+
+    # 找当前结点的后继结点
+    def findSuccessor(self):
+        succ = None
+        if self.hasRightChild(): # 结点有右子结点
+            # 后继结点为右子树中的最小值
+            succ = self.rightChild.findMin()
+        else: # 没有右子结点
+            if self.parent: 
+                if self.isLeftChild(): # 是父结点的左子结点
+                    # 后继结点为父结点
+                    succ = self.parent
+                else: # 是父结点的右子结点
+                    # 后继结点为此结点的父结点的后继结点(不包括此结点)
+                    self.parent.rightChild = None
+                    succ = self.parent.findSuccessor()
+                    self.parent.rightChild = self
+        return succ
+
+    # 删除后继结点
+    def spliceOut(self):
+        if self.isLeaf():
+            if self.isLeftChild():
+                self.parent.leftChild = None
+            else:
+                self.parent.rightChild = None
+        elif self.hasAnyChildren():
+            if self.hasLeftChild():
+                if self.isLeftChild():
+                    self.parent.leftChild = self.leftChild
+                else:
+                    self.parent.rightChild = self.rightChild
+                self.leftChild.parent = self.parent
+            else:
+                if self.isLeftChild():
+                    self.parent.leftChild = self.rightChild
+                else:
+                    self.parent.rightChild = self.rightChild
+                self.rightChild.parent = self.parent
 
     # 重写内置函数__delitem__()，调用方式: del bst[key]
     def __delitem__(self, key):
@@ -148,35 +200,35 @@ class TreeNode:
         self.rightChild = right # 右孩子
         self.parent = parent # 双亲
 
-    # 返回左孩子，可用于判断是否有左孩子
+    # 返回左孩子，可用于判断一个结点是否有左孩子
     def hasLeftChild(self):
         return self.leftChild
 
-    # 返回右孩子，可用于判断是否有右孩子
+    # 返回右孩子，可用于判断一个结点是否有右孩子
     def hasRightChild(self):
         return self.rightChild
 
-    # 判断是否是左孩子
+    # 判断结点是否是左孩子
     def isLeftChild(self):
         return self.parent and self.parent.leftChild == self
 
-    # 判断是否是右孩子
+    # 判断结点是否是右孩子
     def isRightChild(self):
         return self.parent and self.parent.rightChild == self
 
-    # 判断是否是根
+    # 判断是否是树根
     def isRoot(self):
         return not self.parent
 
-    # 判断是否是叶子结点
+    # 判断结点是否是叶子结点
     def isLeaf(self):
         return not (self.rightChild or self.leftChild)
 
-    # 只有一个孩子
+    # 判断是否结点只有一个孩子
     def hasAnyChildren(self):
         return self.rightChild or self.leftChild
 
-    # 有两个孩子
+    # 判断结点是否有两个孩子
     def hasBothChildren(self):
         return self.rightChild and self.leftChild
 
@@ -185,9 +237,21 @@ class TreeNode:
         self.key = key
         self.payload = value
         self.leftChild = lc
+
         self.rightChild = rc
 
         if self.hasLeftChild():
             self.leftChild.parent = self
         if self.hasRightChild():
             self.rightChild.parent = self
+
+
+def main():
+    mytree = BinarySearchTree()
+    mytree[3] = "red"
+    mytree[4] = "blue"
+    mytree[6] = "yellow"
+    mytree[2] = "at"
+
+    print(mytree[6])
+    print(mytree[2])
