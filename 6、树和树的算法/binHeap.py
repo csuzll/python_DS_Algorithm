@@ -1,6 +1,7 @@
 # 二叉最小堆的实现
-# 列表实现。列表的第0位默认为0，从位置1开始为堆的开始。
+# 列表实现。列表的第0位默认为0，从位置1开始为堆的开始。（完全二叉树可以直接存储在列表中）
 # 当列表从索引1开始存储元素时，每个节点p的左子树的根节点索引应为（2*p），右子树的根节点索引应为（2*p+1）
+# 二叉堆的结构便于实现优先级队列
 
 class BinMinHeap:
     def __init__(self):
@@ -22,7 +23,7 @@ class BinMinHeap:
         """
         while i // 2 > 0: # 父结点存在
             if self.heapList[i] < self.heapList[i // 2]: # 如果当前节点比父结点更小，则交换
-                self.heapList[i], self.heapList[i // 2]= self.heapList[i // 2], self.heapList[i]
+                self.heapList[i], self.heapList[i // 2] = self.heapList[i // 2], self.heapList[i]
             i = i // 2
 
     # 插入一个项，保持最小堆结构和特性
@@ -31,7 +32,7 @@ class BinMinHeap:
         1. 将此项添加到列表树末尾
         2. 新添加的项替换到其在堆中的正确位置
         """
-        self.heapList.append[k]
+        self.heapList.append(k)
         self.currentSize += 1
         self.perUp(self.currentSize)
 

@@ -1,8 +1,11 @@
 # 研究二叉查找树作为从键映射到值的一种方法
-# 二叉查找树: 左子树小于父结点，右子树大于父结点，称为bst属性，此属性适用于每个父级和子级
-# 左子树中的所有键小于根中的键。 右子树中的所有键都大于根中的键。
+# 二叉查找树: 树上任一结点，该结点的值都大于它的非空左子树的值，都小于它的非空右子树的值。
+# 任一结点的左右子树都是二叉查找树
+# 中序遍历二叉查找树能够按从小到大的顺序遍历二叉树
 
+from treeNode import TreeNode
 
+# 二叉查找树类
 class BinarySearchTree:
     def __init__(self):
         self.root = None # 树根
@@ -16,11 +19,13 @@ class BinarySearchTree:
     def __len__(self):
         return self.size
 
-    # 重写内置函数__iter__()，使得bst可迭代，调用方式为: next(bst)
+    # 重写内置函数__iter__()，使得bst可迭代
     def __iter__(self):
+        # 在结点类中实现迭代
         return self.root.__iter__()
 
-    # 将键值对放入树中，并调整保持构成二叉查找树
+    # 将键值对放入树中，并调整保持二叉查找树属性
+    """ put的性能: 取决于树的高度"""
     def put(self, key, val):
         if self.root: 
             # 树有根，调用私有递归辅助函数_put()
@@ -28,22 +33,26 @@ class BinarySearchTree:
         else:
             # 没有根，创建一个新的TreeNode作为树的根
             self.root = TreeNode(key, val)
+            self.size += 1
 
+    # 树有根的情况下的插入函数
     def _put(self, key, val, currentNode):
         if key == currentNode.key: # 新键等于当前结点的键，修改当前结点的payload
-            currentNode.payload = val
+            currentNode.replaceNodeData(key, val, currentNode.leftChild, currentNode.rightChild)
         elif key < currentNode.key: # 新键小于当前结点的键，搜索左子树
             if currentNode.hasLeftChild():
                 self._put(key, val, currentNode.leftChild)
             else:
                 # 当前结点的左结点设置为新建
                 currentNode.leftChild = TreeNode(key, val, parent=currentNode)
+                self.size += 1
         else: # 新键大于当前结点的键，搜索右子树
             if currentNode.hasRightChild():
                 self._put(key, val, currentNode.rightChild)
             else:
                 # 当前结点的右结点设置为新键
                 currentNode.rightChild = TreeNode(key, val, parent=currentNode)
+                self.size += 1
 
     # 重写内置函数__setitem__()，调用方式: bst[key] = val
     def __setitem__(self, k, v):
@@ -52,19 +61,20 @@ class BinarySearchTree:
     # 获取键对应的值
     def get(self, key):
         if self.root: # 存在树
-            res = self._get(self, key, self.root)
-            if res: # 找到了
+            res = self._get(key, self.root)
+            if res: # 找到key
                 return res.payload
-            else: # 不存在
+            else: # 没找到key
                 return None
         else: # 空树
             return None
 
+    # 树存在时的查找函数
     def _get(self, key, currentNode):
         # 返回一个treeNode或者None
         if not currentNode: # 不存在
             return None
-        else currentNode.key == key: # 相等
+        elif currentNode.key == key: # 相等
             return currentNode
         elif key < currentNode.key: # 小于，递归查找左子树
             return self._get(key, currentNode.leftChild)
@@ -85,32 +95,34 @@ class BinarySearchTree:
     # 删除指定的键值对
     def delete(self, key):
         if self.size > 1: # 树有多个结点
-            nodeToRemove = self._get(key, self.root) # 查找要删除的结点
+            nodeToRemove = self._get(key, self.root) # 找到要删除的结点
             if nodeToRemove: # 找到
-                self.remove(nodeToRemove)
+                self.remove(nodeToRemove) # 调用remove函数
                 self.size -= 1
             else: # 没找到
                 raise KeyError("Error, key not in tree")
         elif self.size == 1 and self.root.key == key: # 树只有一个结点，且与要删除的键相等
-            self.root = None
+            self.root = None # 树变为空树
             self.size = self.size - 1
         else: # 树只有一个结点，且与要删除的键不等
             raise KeyError("Error, key not in tree")
 
     # 移除函数(size>1的树中的结点的移除)
     def remove(self, currentNode):
-        if currentNode.isLeaf(): # 当前结点为叶子结点，没有子结点
-            # 删除当前结点并删除当前结点的父结点对该结点的引用
+        if currentNode.isLeaf(): # 当前结点为叶子结点
+            # 删除当前结点并置空当前结点的父结点对该结点的引用
             if currentNode == currentNode.parent.leftChild: # 当前结点为左叶子结点
                 currentNode.parent.leftChild = None 
             else: # 当前结点为为右叶子结点
                 currentNode.parent.rightChild = None
-        else currentNode.hasBothChildren(): # 当前结点有两个子结点
+        elif currentNode.hasBothChildren(): # 当前结点有两个子结点
+            # 使用当前结点的左子树中的最右子结点(左子树中的最大值:前驱结点)，或者当前结点的右子树中的最左子结点(右子树中的最小值: 后继结点))替换被删除的结点
+            # 这里使用的是要删除的结点的右子树中的最小值来替换
             succ = currentNode.findSuccessor() # 找到当前结点的后继结点
-            succ.spliceOut() # 删除后继结点
+            succ.spliceOut() # 删除后继结点(后继结点要么只有1个子结点要么没有)
             currentNode.key = succ.key # 当前结点的key设置为后继结点的key
             currentNode.payload = succ.payload # 当前结点的payload设置为后继结点的payload
-        else: # 当前结点有1个子结点
+        else: # 当前结点只有1个子结点
             if currentNode.hasLeftChild(): # 当前结点的子结点为左子结点
                 if currentNode.isLeftChild(): # 当前结点为其父结点的左子结点
                     currentNode.leftChild.parent = currentNode.parent # 当前结点的左子结点的父引用指向当前结点的父结点
@@ -138,120 +150,93 @@ class BinarySearchTree:
                         currentNode.rightChild.leftChild,
                         currentNode.rightChild.rightChild)
 
-
-    # 子树中的最小键(任何二叉查找树中的最小值键是树的最左子结点。)
-    def findMin(self):
-        current = self
-        # 通过简单地循环树中每个节点的左子结点，直到它到达没有左子结点的结点
-        while current.hasLeftChild:
-            current = current.leftChild
-        return current
-
-    # 找当前结点的后继结点
-    def findSuccessor(self):
-        succ = None
-        if self.hasRightChild(): # 结点有右子结点
-            # 后继结点为右子树中的最小值
-            succ = self.rightChild.findMin()
-        else: # 没有右子结点
-            if self.parent: 
-                if self.isLeftChild(): # 是父结点的左子结点
-                    # 后继结点为父结点
-                    succ = self.parent
-                else: # 是父结点的右子结点
-                    # 后继结点为此结点的父结点的后继结点(不包括此结点)
-                    self.parent.rightChild = None
-                    succ = self.parent.findSuccessor()
-                    self.parent.rightChild = self
-        return succ
-
-    # 删除后继结点
-    def spliceOut(self):
-        if self.isLeaf():
-            if self.isLeftChild():
-                self.parent.leftChild = None
-            else:
-                self.parent.rightChild = None
-        elif self.hasAnyChildren():
-            if self.hasLeftChild():
-                if self.isLeftChild():
-                    self.parent.leftChild = self.leftChild
-                else:
-                    self.parent.rightChild = self.rightChild
-                self.leftChild.parent = self.parent
-            else:
-                if self.isLeftChild():
-                    self.parent.leftChild = self.rightChild
-                else:
-                    self.parent.rightChild = self.rightChild
-                self.rightChild.parent = self.parent
-
     # 重写内置函数__delitem__()，调用方式: del bst[key]
     def __delitem__(self, key):
         self.delete(key)
 
-# 结点类
-class TreeNode:
-    """ A node for the Binary Search Tree """
-    def __init__(self, key, val, left=None, right=None, parent=None):
-        self.key = key # 键
-        self.payload = val # 值
-        self.leftChild = left # 左孩子
-        self.rightChild = right # 右孩子
-        self.parent = parent # 双亲
+    # 利用TreeNode的findSuccessor()后继结点来写一个非递归的二叉搜索树的中序遍历
+    def inorderSucc(self):
+        if self.size > 0: # 非空树
+            # inlist = [] # 中序遍历结果
+            node = self.root
+            while node.leftChild != None:
+                node = node.leftChild
+            while node:
+                # inlist.append(node.key)
+                print(node.key)
+                node = node.findSuccessor()
+            # return inlist
+        else: # 空树
+            print("None")
+            # return None     
 
-    # 返回左孩子，可用于判断一个结点是否有左孩子
-    def hasLeftChild(self):
-        return self.leftChild
-
-    # 返回右孩子，可用于判断一个结点是否有右孩子
-    def hasRightChild(self):
-        return self.rightChild
-
-    # 判断结点是否是左孩子
-    def isLeftChild(self):
-        return self.parent and self.parent.leftChild == self
-
-    # 判断结点是否是右孩子
-    def isRightChild(self):
-        return self.parent and self.parent.rightChild == self
-
-    # 判断是否是树根
-    def isRoot(self):
-        return not self.parent
-
-    # 判断结点是否是叶子结点
-    def isLeaf(self):
-        return not (self.rightChild or self.leftChild)
-
-    # 判断是否结点只有一个孩子
-    def hasAnyChildren(self):
-        return self.rightChild or self.leftChild
-
-    # 判断结点是否有两个孩子
-    def hasBothChildren(self):
-        return self.rightChild and self.leftChild
-
-    # 替换结点数据
-    def replaceNodeData(self, key, value, lc, rc):
-        self.key = key
-        self.payload = value
-        self.leftChild = lc
-
-        self.rightChild = rc
-
-        if self.hasLeftChild():
-            self.leftChild.parent = self
-        if self.hasRightChild():
-            self.rightChild.parent = self
-
+    # 利用TreeNode的findPredecessor前驱结点来写一个非递归的二叉搜索树的中序遍历的倒序
+    def inorderPrec(self):
+        if self.size > 0: # 非空树
+            # inlist = [] # 中序遍历结果
+            node = self.root
+            while node.rightChild != None:
+                node = node.rightChild
+            while node:
+                # inlist.insert(0, node.key)
+                print(node.key)
+                node = node.findPredecessor()
+            # return inlist
+        else: # 空树
+            print("None")
+            # return None         
 
 def main():
-    mytree = BinarySearchTree()
-    mytree[3] = "red"
-    mytree[4] = "blue"
-    mytree[6] = "yellow"
-    mytree[2] = "at"
+    mytree = BinarySearchTree() # 创建一个空的二叉树
 
-    print(mytree[6])
-    print(mytree[2])
+    # 测试插入
+    mytree[3] = "red" # 插入key=3
+    mytree[4] = "blue" # 插入key=4
+    mytree[6] = "yellow" # 插入key=6
+    mytree[2] = "at" # 插入key=2
+
+    # 测试获取
+    print("key 6: ", mytree[6]) # 获取key=6对应的值
+    print("key 2: ", mytree[2]) # 获取key=2对应的值
+
+    # 测试length()
+    print("my tree's length: ", mytree.length())
+
+    # 测试插入相同的key
+    mytree[2] = "green"
+
+    # 测试len()
+    print("my tree's length: ", len(mytree))
+    print("key 2: ", mytree[2])
+
+    # 测试in操作__contain__()
+    if 6 in mytree:
+        print("Yes")
+
+    # for ... in ...其实隐式调用了类中的__iter__()方法
+    # 只有实现了__iter__()方法才能使用for ... in ...语句
+    for key in mytree: # 输出 2 3 4 6
+        print(key)
+
+    # mytree实现了__iter__()方法，则mytree为可迭代对象
+    print(list(mytree)) # 输出[2,3,4,6]
+    print(list(mytree.root)) # 输出[2,3,4,6]
+
+    # 测试删除
+    # del mytree[6] # 删除的6为叶子结点
+    # print(list(mytree)) # 输出[2,3,4]
+    # del mytree[4] # 删除的4有一个子结点
+    # print(list(mytree)) # 输出[2,3,6]
+    # del mytree[3] # 删除的3有两个子结点
+    # print(list(mytree)) # 输出[2,4,6]
+
+    # 中序后继结点实现中序遍历测试
+    print("\n")
+    mytree.inorderSucc()
+
+    print("\n")
+    # 中序前驱结点实现中序遍历倒序测试
+    mytree.inorderPrec()
+
+if __name__ == '__main__':
+    main()

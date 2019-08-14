@@ -1,3 +1,5 @@
+# 数学表达式的解析树
+
 from binaryTree import BinaryTree
 import operator
 
@@ -28,8 +30,23 @@ class Stack:
 
 # 构建解析树
 def buildParseTree(fpexp):
-    # fpexp: 完全括号表达式
-    fplist = fpexp.split() 
+    # # fpexp: 完全括号表达式且每个符号之间用空格隔开: 例如"( ( ( a + b ) / c ) + d )"
+    # fplist = fpexp.split() 
+
+    # 改进，能同时处理带完整的空格，部分空格，和不带空格的情况
+    fpexp = fpexp.replace(" ", "") # 去掉字符串中的所有空格
+    fplist = []
+    i = 0 # i为索引
+    while i < len(fpexp):
+        if fpexp[i] not in ["0","1","2","3","4","5","6","7","8","9"]:
+            fplist.append(fpexp[i])
+            i = i + 1
+        else:
+            j = i 
+            while fpexp[j] in ["0","1","2","3","4","5","6","7","8","9"]:
+                j = j + 1
+            fplist.append(fpexp[i:j])
+            i = j
     pStack = Stack() # 创建一个栈，存放当前结点的父结点
     # 创建一颗空根结点树
     eTree = BinaryTree('')
@@ -43,16 +60,13 @@ def buildParseTree(fpexp):
             currentTree.insertLeft('') # 插入当前结点的左结点
             pStack.push(currentTree) # 当前结点入栈
             currentTree = currentTree.getLeftChild() # 当前结点指向左结点
-
         elif i in ['+', '-', '*', '/']:
             currentTree.setRootVal(i) # 当前结点的值设置为i
             currentTree.insertRight('') # 插入一个当前结点的右结点
             pStack.push(currentTree) # 将当前结点入栈
             currentTree = currentTree.getRightChild() # 当前结点指向右结点
-
         elif i == ')':
             currentTree = pStack.pop() # 当前结点指向父结点
-
         elif i not in ['+', '-', '*', '/', ')']:
             try:
                 currentTree.setRootVal(int(i)) # 当前结点的值设置为int(i)
@@ -121,18 +135,27 @@ def printexp(tree):
         sVal = sVal + printexp(tree.getRightChild()) + ")"
     return sVal
 
-inString = "( ( 10 + 5 ) * 3 )"
-print(inString)
-pt = buildParseTree(inString)
-print(evaluate(pt))
-print(postordereval(pt))
-print("\n")
-preorder(pt)
-print("\n") 
-postorder(pt)
-print("\n")
-inorder(pt)
-print("\n")
-print(printexp(pt))
+def main():
+    inString = "( ( 10 + 5 ) * 3 )"
+    print(inString)
+    pt = buildParseTree(inString)
+    print(evaluate(pt))
+    print(postordereval(pt))
+    print("\n")
+    preorder(pt)
+    print("\n") 
+    postorder(pt)
+    print("\n")
+    inorder(pt)
+    print("\n")
+    print(printexp(pt))
+
+    astring = "((12+12)/3)"
+    pt2 = buildParseTree(astring)
+    print(printexp(pt2))
+    print(postordereval(pt2))
+
+if __name__ == '__main__':
+    main()
 
 

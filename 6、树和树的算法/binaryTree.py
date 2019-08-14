@@ -113,5 +113,9 @@ def main():
 	print(ttree.getRightChild().getLeftChild().getRootVal())
 	print(ttree.getRightChild().getRightChild().getRootVal())
 
+	print("\n")
+
+	ttree.inorder()
+
 if __name__ == '__main__':
 	main()
