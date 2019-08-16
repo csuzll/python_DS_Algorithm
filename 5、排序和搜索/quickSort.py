@@ -93,7 +93,7 @@ def quickSort3(alist):
         return alist
     else:
         threelist = [alist[0], alist[-1], alist[len(alist) // 2]] # 第一，最末，中间元素组成的列表
-        pivotvalue = sorted(threelist)[1]  # 中位数，枢纽值
+        pivotvalue = sorted(threelist)[1]  # 3个数的中位数，枢纽值
         index = alist.index(pivotvalue)  # 确定枢纽值在原列表中的位置
 
         left = quickSort3([l for l in (alist[:index] + alist[index+1:]) if l <= pivotvalue])
@@ -103,3 +103,49 @@ def quickSort3(alist):
 
 alist = [54,26,93,17,77,31,44,55,20]
 print(quickSort3(alist))
+
+# 三位取中(三路快排)的第二种实现
+def quickSort4(alist, first=0, last=None):
+    last = len(alist)-1 if last == None else last
+
+    if first >= last:
+        return None
+
+    #  从alist[first],alist[mid],alist[last]三个中挑选中间值，并将其移动到alist[first]
+    mid = (first + last) // 2
+    if alist[first] > alist[last]:
+        alist[first], alist[last] = alist[last], alist[first]
+    if alist[mid] < alist[last]:
+        alist[mid], alist[last] = alist[last], alist[mid]
+    if alist[first] < alist[mid]:
+        alist[first], alist[mid] = alist[mid], alist[first]
+
+    pivotvalue = alist[first]  # 基准值
+    leftmark = first+1 # 左界    
+    rightmark = last # 右界
+
+    done = False
+    while not done:
+        while leftmark <= rightmark and alist[leftmark] <= pivotvalue: # 向右移动左标记直到超过右标记或找到大于基准数的项
+            leftmark = leftmark + 1
+
+        while alist[rightmark] >= pivotvalue and rightmark >= leftmark: # 向左移动右标记直到超过左标记或找到小于基准数的项
+            rightmark = rightmark -1
+
+        if rightmark < leftmark: # 左标记小于右标记，结束
+            done = True
+        else: # 否则，交换左右标记的指向的值值
+            alist[leftmark], alist[rightmark] = alist[rightmark], alist[leftmark]
+    # 此时右标记为基准值应该插入的位置，交换右标记与基准值
+    alist[first], alist[rightmark] = alist[rightmark], alist[first]
+
+    quickSort(alist, first, rightmark-1)
+    quickSort(alist, rightmark+1, last)
+
+alist = [54,26,93,17,77,31,44,55,20]
+quickSort4(alist)
+print(alist)
+
+
+# 三路快排 +  插入排序
+# 可以设定当列表数小于某个值的时候使用插入排序，其他情况使用快速排序（当排序数组较小时，插入排序的效率要高于快速排序）

@@ -84,15 +84,80 @@ class BinMinHeap:
             self.perDown(i)
             i = i - 1
 
+
+"""实现一个堆排序(不调用类)"""
+
+"""
+1.从给定的列表创建一个二叉最小堆
+
+"""
+
+
+def heapSort(alist):
+    # 由列表创建最小堆
+    def build_min_heap(alist):
+        size = len(alist)  # 给定的列表的大小
+        heap_list = [0] + alist  # 初始化最小堆列表
+        i = len(alist) // 2 # 最后一个非叶子结点的索引
+        # 调整列表堆
+        while i > 0: 
+            heapify(heap_list, i, size)
+            i = i - 1
+        return heap_list
+
+    # 调整函数
+    def heapify(heaplist, i, size):
+        """
+        heaplist: 列表堆
+        i: 列表堆索引
+        size: 列表大小（永远比列表堆小1）
+        """
+        while (i * 2) <= size: # 子结点存在
+            # small为最小子结点索引（左或右）
+            small = 2 * i 
+            if 2 * i + 1 <= size and heaplist[2*i] > heaplist[2*i+1]:
+                small = 2 * i + 1
+            # 交换
+            if heaplist[i] > heaplist[small]:
+                heaplist[i], heaplist[small] = heaplist[small], heaplist[i]
+            i = small
+
+    # 删除最小值
+    def delMin(heaplist):
+        """
+        1. 交换最后一个项到堆的根位置
+        2. 从这个根位置沿着树向下推到其正确位置来恢复堆的特性
+        """
+        if len(heaplist) == 0:
+            return None
+        else:
+            retval = heaplist[1] # 最小值为堆顶元素
+            heaplist[1] = heaplist[-1]  # 最后一个项移动到堆根
+            heaplist.pop()  # 删除最后一个项
+            heapify(heaplist, 1, len(heaplist)-1)
+            return retval
+
+    # 排序
+    q = build_min_heap(alist)
+    t = []
+    for i in range(len(alist)):
+        t.append(delMin(q))
+    return t
+
 def main():
     bh = BinMinHeap()
-    bh.buildHeap([9, 5, 6, 2, 3])
 
-    print(bh.delMin())
-    print(bh.delMin())
-    print(bh.delMin())
-    print(bh.delMin())
-    print(bh.delMin())
+    # 由列表构造二叉堆
+    bh.buildHeap([9, 5, 6, 2, 3])
+    # 不断将堆顶元素返回，就能得到排好序的list
+    sortedlist = []
+    while bh.size() > 0:
+        sortedlist.append(bh.delMin())
+    print(sortedlist)
+    print("\n")
+
+    alist = [9, 5, 6, 2, 3]
+    print(heapSort(alist))
 
 if __name__ == '__main__':
     main()

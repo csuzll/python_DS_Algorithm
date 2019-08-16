@@ -184,7 +184,50 @@ class BinarySearchTree:
             # return inlist
         else: # 空树
             print("None")
-            # return None         
+            # return None
+
+    # 二叉搜索树的前序遍历
+    def preorder(self):
+        self._preorder(self.root)
+
+    def _preorder(self, tree):
+        if tree:
+            print(tree.key)            
+            self._preorder(tree.leftChild)
+            self._preorder(tree.rightChild)
+
+    # 二叉搜索树的中序遍历
+    def inorder(self):
+        self._inorder(self.root)
+
+    def _inorder(self, tree):
+        if tree:
+            self._inorder(tree.leftChild)
+            print(tree.key)
+            self._inorder(tree.rightChild)
+
+    # 二叉搜索树的后序遍历
+    def postorder(self):
+        self._postorder(self.root)
+
+    def _postorder(self, tree):
+        if tree:
+            self._postorder(tree.rightChild)
+            self._postorder(tree.leftChild)
+            print(tree.key)
+
+    # 二叉搜索树的层次遍历
+    def traverse(self):
+        row = [self.root]
+        while row:
+            print([i.key for i in row]) # 输出当前层的结点
+            temp = [] # 存储了下一层的所有结点
+            for node in row:
+                if node.leftChild:
+                    temp.append(node.leftChild)
+                if node.rightChild:
+                    temp.append(node.rightChild)
+            row = temp
 
 def main():
     mytree = BinarySearchTree() # 创建一个空的二叉树
@@ -237,6 +280,18 @@ def main():
     print("\n")
     # 中序前驱结点实现中序遍历倒序测试
     mytree.inorderPrec()
+    print("\n")
+
+    # 中序，前序，后序
+    mytree.inorder()
+    print("\t")
+    mytree.preorder()
+    print("\t")
+    mytree.postorder()
+    print("t")
+
+    # 测试遍历
+    mytree.traverse()
 
 if __name__ == '__main__':
     main()

@@ -15,10 +15,9 @@ class TreeNode:
     def __init__(self, key, val, left=None, right=None, parent=None):
         self.key = key # 键
         self.payload = val # 值
-        self.leftChild = left # 左孩子
-        self.rightChild = right # 右孩子
+        self.leftChild = left # 左孩子或前驱
+        self.rightChild = right # 右孩子或后继
         self.parent = parent # 双亲
-        self.balanceFactor = 0 # 结点的平衡因子
 
     # 返回左孩子，可用于判断一个结点是否有左孩子
     def hasLeftChild(self):
@@ -70,11 +69,11 @@ class TreeNode:
     def __iter__(self):
         if self:
             if self.hasLeftChild(): # 左孩子
-                for elem in self.leftChild:
+                for elem in self.leftChild: # 调用self.leftChiLd.__iter__()，所以此处是递归的
                     yield elem
             yield self.key # 中
             if self.hasRightChild(): # 右孩子
-                for elem in self.rightChild:
+                for elem in self.rightChild: # 调用self.rightChiLd.__iter__()
                     yield elem
 
     # 子树中的最小键(任何二叉查找树中的最小值键是树的最左子结点。)
