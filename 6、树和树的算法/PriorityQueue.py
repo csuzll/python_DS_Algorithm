@@ -13,7 +13,7 @@ class PriorityQueue:
     # 从列表构建优先队列
     def buildHeap(self, alist):
         if len(alist) > self.capacity:
-            raise ValueError("列表大小超过队列容量",self.capacity)
+            raise ValueError("列表大小超过队列容量", self.capacity)
         self.currentSize = len(alist)
         self.priorqueue = [(0,0)] + alist[:]
         # 最后一个非叶子结点的索引
@@ -39,7 +39,7 @@ class PriorityQueue:
                 return i * 2
             else:
                 # 左右子结点都存在
-                if self.priorqueue[i * 2] < self.priorqueue[i * 2 + 1]: # 左结点小于右节点
+                if self.priorqueue[i * 2][0] < self.priorqueue[i * 2 + 1][0]: # 左结点小于右节点
                     return i * 2
                 else: # 右结点小于左结点
                     return i * 2 + 1
@@ -75,6 +75,7 @@ class PriorityQueue:
             return True
         else:
             return False
+            
     # 实现for... in...
     def __contain__(self, vtx):
         for pair in self.priorqueue:
