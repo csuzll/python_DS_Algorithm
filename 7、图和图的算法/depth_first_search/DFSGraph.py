@@ -31,12 +31,13 @@ class DFSGraph(Graph):
         self.time += 1
         startVertex.setFinish(self.time) # 设置起始结点变为黑色之前的步骤数
 
-
+# 循环打印结点y的前导结点
 def traverse(y):
     x=y
-    while x!=None:
-        print x.getId()
-        x = x.getPred()
+    while x != -1:
+        print(x.getId())
+        x = x.getPredecessor()
+
 if __name__ == '__main__':
     g = DFSGraph()
     for i in range(6):
@@ -51,4 +52,4 @@ if __name__ == '__main__':
     g.addEdge(5, 4, 8)
     g.addEdge(5, 2, 1)
     g.dfs()
-    traverse(g.getVertex(1))
+    traverse(g.getVertex(4))

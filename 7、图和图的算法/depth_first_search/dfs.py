@@ -1,7 +1,17 @@
+# 实现一个简单的dfs
+
+# G为图G
+G = {'A': ['B', 'C'],
+     'B': ['A', 'D', 'E'],
+     'C': ['A', 'F'],
+     'D': ['B'],
+     'E': ['B', 'F'],
+     'F': ['C', 'E']}
+
 # depth first search    
 def dfs(G, start):
-    seen = [start]
-    stack = [start]    #先进后出的栈
+    seen = [start]     # 已访问的结点列表
+    stack = [start]    # 先进后出的栈
     path = []
     while stack:
         cur = stack.pop()
@@ -11,4 +21,5 @@ def dfs(G, start):
                 seen.append(vertex)
                 stack.append(vertex)
     return path
+
 print(dfs(G,"C"))

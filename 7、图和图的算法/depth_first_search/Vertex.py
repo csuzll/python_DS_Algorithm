@@ -44,16 +44,16 @@ class Vertex:
     def setPredecessor(self, predecessor):
         self.predecessor = predecessor
 
-    def getDiscovery(self):
+    def getDiscovery(self0):
         return self.discovery
 
     def setDiscovery(self, dtime):
         self.discovery = dtime
 
-     def getFinish(self):
+    def getFinish(self):
         return self.finish
 
-     def setFinish(self, ftime):
+    def setFinish(self, ftime):
         self.finish = ftime
 
     # 实现能够直接调用print(Vertex)，输出这个顶点的名称及与此顶点有关的顶点的名称
