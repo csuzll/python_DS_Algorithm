@@ -1,6 +1,4 @@
 # 实现优先队列(最小堆实现)
-import unittest
-
 class PriorityQueue:
     """
     实现优先队列为一个二叉堆使用键值对(priority, value)，假设priority是可比的。
@@ -62,6 +60,7 @@ class PriorityQueue:
     # 删除队首元素
     def dequeue(self):
         retVal = self.priorqueue[1][1] 
+
         self.priorqueue[1] = self.priorqueue[self.currentSize]
         self.currentSize -= 1
         self.priorqueue.pop()
@@ -103,27 +102,3 @@ class PriorityQueue:
             self.priorqueue[myKey] = (newprior, self.priorqueue[myKey][1])
             # 优先权改变，则需要调整
             self.perUp(myKey)
-
-
-class TestPriorityQueue(unittest.TestCase):
-    def setUp(self):
-        self.theQueue = PriorityQueue(100)
-        self.theQueue.enqueue((2, "x"))
-        self.theQueue.enqueue((3, "y"))
-        self.theQueue.enqueue((5, "z"))
-        self.theQueue.enqueue((6, "a"))
-        self.theQueue.enqueue((4, "d"))s
-
-    def testEnqueue(self):
-        assert self.theQueue.currentSize == 5
-
-    def testDequeue(self):
-        assert self.theQueue.dequeue() == "x"
-        assert self.theQueue.dequeue() == "y"
-
-    def testDecKey(self):
-        self.theQueue.decreaseKey("d", 1)
-        assert self.theQueue.dequeue() == "d"
-
-if __name__ == '__main__':
-    unittest.main()

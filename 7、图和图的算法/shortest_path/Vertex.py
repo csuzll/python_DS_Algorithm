@@ -1,19 +1,13 @@
 # 添加了实例属性的顶点类
+import sys
 
 class Vertex:
     def __init__(self, name):
         self.id = name # 顶点的名称
         self.connectedTo = {} # 字典表示当前顶点连接到的其他顶点和它们的边的权重，{nbr: weight}
         self.color = "white" # 顶点的颜色
-        self.distance = None # 图中此顶点到起始顶点的最小距离 
-        self.predecessor = None # 图中此顶点到起始顶点的最小距离路径上此顶点的前一个顶点
-        """
-        下面两个属性称为parenthesis属性
-        该属性意味着深度优先树中的特定节点的所有子节点具有比它们的父节点更晚的发现时间和更早的完成时间
-        """
-
-        self.discovery = 0 # 首次访问顶点时之前的步骤数（开始时间）
-        self.finish = 0 # 顶点着色为黑色之前的步骤数（完成时间）
+        self.distance = sys.maxsize # 图中此顶点到起始顶点的最小总权重，默认设置为一个无限大的数
+        self.predecessor = None # 图中此顶点到起始顶点的最小总权重路径上此顶点的前一个顶点
 
     # 从这个顶点添加一个连接(一条边)到另一个顶点
     def addNeighbor(self, nbr, weight=0):
@@ -28,33 +22,21 @@ class Vertex:
     def setColor(self, color):
         self.color = color
 
-    # 获得到起始顶点的最小距离
+    # 获得到起始顶点的最小总权重
     def getDistance(self):
         return self.distance
 
-    # 设置到起始顶点的最小距离
+    # 设置到起始顶点的最小总权重
     def setDistance(self, distance):
         self.distance = distance
 
-    # 获得最小距离路径上此顶点的前一个顶点
+    # 获得最小总权重路径上此顶点的前一个顶点
     def getPredecessor(self):
         return self.predecessor
 
-    # 设置最小距离路径上此顶点的前一个顶点
+    # 设置最小总权重路径上此顶点的前一个顶点
     def setPredecessor(self, predecessor):
         self.predecessor = predecessor
-
-    def getDiscovery(self0):
-        return self.discovery
-
-    def setDiscovery(self, dtime):
-        self.discovery = dtime
-
-    def getFinish(self):
-        return self.finish
-
-    def setFinish(self, ftime):
-        self.finish = ftime
 
     # 实现能够直接调用print(Vertex)，输出这个顶点的名称及与此顶点有关的顶点的名称
     def __str__(self):
