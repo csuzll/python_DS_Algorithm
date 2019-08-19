@@ -1,4 +1,7 @@
-# 迪杰斯特拉求最短路径
+# dijkstra算法: 求某一特定顶点到任意其他顶点的最短路径
+# 使用的是一种广度优先策略
+# 分别以图中每个顶点为源点调用V次dijkstra算法，能够得到任意两点间的最短路径。还有另外一种方法叫floyd算法可以求任意两点间的最短路径。它的实现在floyd.py中。
+
 from PriorityQueue import PriorityQueue
 from Graph import Graph
 from Vertex import Vertex
@@ -10,7 +13,8 @@ def dijstra(aGraph, start):
     start.setDistance(0) # 设置起始结点到起始结点的权重为0
     # 元组作为优先队列的元素
     pq.buildHeap([(v.getDistance(), v) for v in aGraph]) # 到起始顶点的距离作为优先级队列中的键，图中顶点的键作为优先级队列中的值
-    while not pq.isEmpyt():
+    while not pq.isEmpty():
+        # 每次从队列中挑选权重最小的边
         currentVert = pq.dequeue() # 队首元素
         for nextVert in currentVert.getConnections():
             # 新的距离 = 当前结点的距离 + 当前结点到下一个结点之间的权重
@@ -22,18 +26,38 @@ def dijstra(aGraph, start):
 
 if __name__ == '__main__':
     g = Graph()
-    for i in range(6):
+    for i in ["u", "v", "w", "x", "y", "z"]:
         g.addVertex(i)
-    g.addEdge(0, 1, 5)
-    g.addEdge(0, 5, 2)
-    g.addEdge(1, 2, 4)
-    g.addEdge(2, 3, 9)
-    g.addEdge(3, 4, 7)
-    g.addEdge(3, 5, 3)
-    g.addEdge(4, 0, 1)
-    g.addEdge(5, 4, 8)
-    g.addEdge(5, 2, 1)
-    dijstra(g, g.getVertex(0))
+
+    g.addEdge("u", "v", 2)
+    g.addEdge("u", "w", 5)
+    g.addEdge("u", "x", 1)
+
+    g.addEdge("v", "u", 2)
+    g.addEdge("v", "w", 3)
+    g.addEdge("v", "x", 2)
+
+    g.addEdge("w", "u", 5)
+    g.addEdge("w", "v", 3)
+    g.addEdge("w", "x", 3)
+    g.addEdge("w", "y", 1)
+    g.addEdge("w", "z", 5)
+
+    g.addEdge("x", "u", 1)
+    g.addEdge("x", "v", 2)
+    g.addEdge("x", "w", 3)
+    g.addEdge("x", "y", 1)
+
+    g.addEdge("y", "w", 1)
+    g.addEdge("y", "x", 1)
+    g.addEdge("y", "z", 1)
+
+    g.addEdge("z", "w", 5)
+    g.addEdge("z", "y", 1)
+
+    # "u"顶点到任意顶点的最短路径
+    dijstra(g, g.getVertex("u"))
+
     for vert in g:
         print(vert.getId(), vert.getDistance())
         path = [] # 最短路径

@@ -46,3 +46,12 @@ class Graph:
     # 通过顶点对象遍历图
     def __iter__(self):
         return iter(self.vertList.values())
+
+    # 图的转置
+    def G_transpose(self, g):
+        gt = Graph()
+        # 转置
+        for aVertex in g:
+            for w in aVertex.getConnections():
+                gt.addEdge(w.getId(), aVertex.getId())
+        return gt

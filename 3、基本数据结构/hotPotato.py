@@ -21,9 +21,6 @@ def hotPotato(namelist, num):
 
     return simqueue.dequeue()
 
-print(hotPotato(["Bill","David","Susan","Jane","Kent","Brad"],7))
-
-
 # 修改hotPotato算法，使每次传递的个数为一个随机数。
 import random
 
@@ -41,4 +38,8 @@ def hotPatato2(namelist):
         simqueue.dequeue()
     return simqueue.dequeue()
 
-print(hotPatato2(["Bill","David","Susan","Jane","Kent","Brad"]))
+if __name__ == '__main__':
+    print(hotPotato(["Bill","David","Susan","Jane","Kent","Brad"],7))
+    print("\n")
+    # 随机的时间比较长
+    print(hotPatato2(["Bill","David","Susan","Jane","Kent","Brad"]))

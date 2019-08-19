@@ -31,7 +31,8 @@ def findksmall2(alist, k):
     else:
         return None
 
-list1 = [65,58,95,10,57,65,13,106,78,23,85]
-print(findksmall(list1, 5))
-print(findksmall2(list1, 5))
+if __name__ == '__main__':
+    list1 = [65,58,95,10,57,65,13,106,78,23,85]
+    print(findksmall(list1, 5))
+    print(findksmall2(list1, 5))
 

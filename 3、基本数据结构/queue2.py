@@ -21,10 +21,11 @@ class Queue:
     # 获取队列大小
     def size(self):
         return len(self.items)
-
-# q = Queue()
-# q.enqueue(1)
-# q.enqueue(2)
-# print(q.items[1]) 
-# q.dequeue()
-# print(q.items[0])
+        
+if __name__ == '__main__':
+    q = Queue()
+    q.enqueue(1)
+    q.enqueue(2)
+    print(q.items[1]) 
+    q.dequeue()
+    print(q.items[0])

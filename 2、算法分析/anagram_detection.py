@@ -6,7 +6,7 @@
 # solution1
 # 思路：检查长度是否相等，然后检查第一个字符串中的每个字符是否都出现在第二个字符串中
 # 将str2转换为list，str1中的一个字符在list中出现，就将list那个字符替换为None
-# 时间复杂度: O(N2)
+# 时间复杂度: O(N^2)
 def anagramSolution1(s1, s2):
     if (len(s1) != len(s2)):
         stillOK = False
@@ -33,12 +33,9 @@ def anagramSolution1(s1, s2):
 
     return stillOK
 
-
-# print(anagramSolution1("abcd", "dcba"))
-
 # solution2
 # 排序和比较：先将s1和s2转换为list后排序，然后进行对比
-# 排序的时间复杂度是O(n2)后者O(nlog n)，中间的迭代为O(n)，所以当n足够大时，整个算法的时间复杂度与排序的复杂度相同。
+# 排序的时间复杂度是O(N^2)后者O(nlog n)，中间的迭代为O(N)，所以当n足够大时，整个算法的时间复杂度与排序的复杂度相同。
 def anagramSolution2(s1, s2):
     alist1 = list(s1)
     alist2 = list(s2)
@@ -56,8 +53,6 @@ def anagramSolution2(s1, s2):
             matches = False
 
     return matches
-
-# print(anagramSolution2('abcde','edcba'))
 
 # solution3
 # 蛮力法: 使用s1中的字符生成可能的字符串，再判断s2是否在这个生成的字符中
@@ -87,4 +82,7 @@ def anagramSolution4(s1, s2):
             stillOK = False
     return stillOK
 
-print(anagramSolution4("apple", "pleap"))
+if __name__ == '__main__':
+    print(anagramSolution1("abcd", "dcba"))
+    print(anagramSolution2('abcde','edcba'))
+    print(anagramSolution4("apple", "pleap"))

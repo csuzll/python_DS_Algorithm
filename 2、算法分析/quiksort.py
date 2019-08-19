@@ -58,11 +58,11 @@ def partition3(alist, left, right):
 
     return left
 
-
-list1 = [65,58,95,10,57,65,13,106,78,23,85]
-list2 = [65,58,95,10,57,65,13,106,78,23,85]
-list3 = [65,58,95,10,57,65,13,106,78,23,85]
-print(list1)
-print(qsort1(list1))
-print(qsort2(list2))
-print(qsort3(list3, 0, len(list3)-1))
+if __name__ == '__main__':
+    list1 = [65,58,95,10,57,65,13,106,78,23,85]
+    list2 = [65,58,95,10,57,65,13,106,78,23,85]
+    list3 = [65,58,95,10,57,65,13,106,78,23,85]
+    print(list1)
+    print(qsort1(list1))
+    print(qsort2(list2))
+    print(qsort3(list3, 0, len(list3)-1))

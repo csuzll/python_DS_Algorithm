@@ -1,3 +1,4 @@
+# 求两个数的最大公约数
 def gcd(m, n):
     while(n!=0):
         rem = m % n

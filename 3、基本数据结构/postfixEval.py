@@ -42,7 +42,7 @@ def postfixEval(postfixexpr):
 
 def doMath(op, op1, op2):
     if op == "*":
-        return op1 * op2
+        return op1 * op2s
     elif op == "/":
         return op1 / op2
     elif op == "**":
@@ -52,7 +52,8 @@ def doMath(op, op1, op2):
     else:
         return op1 - op2
 
-print(postfixEval('7 8 + 3 2 + /')) # 3.0
-# print(postfixEval('7 8 + 3 2 + / -')) # 出错
-print(postfixEval("1 3 + 3 8 - 9 * /"))
-print(postfixEval("11 3 + 3 8 - 9 * /")) # 出错
+if __name__ == '__main__':
+    print(postfixEval('7 8 + 3 2 + /')) # 3.0
+    # print(postfixEval('7 8 + 3 2 + / -')) # 出错
+    print(postfixEval("1 3 + 3 8 - 9 * /"))
+    print(postfixEval("11 3 + 3 8 - 9 * /")) # 出错

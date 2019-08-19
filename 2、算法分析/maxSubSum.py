@@ -76,14 +76,14 @@ def maxSubSum4(intnumlist):
 
     return maxSum
 
-    
-num = [-2, 11, -4, 13, -5, -2]
-# maxsum1 = maxSubSum1(num)
-# maxsum2 = maxSubSum2(num)
-# maxsum3 = maxSubSum3(num)
-maxsum4 = maxSubSum4(num)
+if __name__ == '__main__':
+    num = [-2, 11, -4, 13, -5, -2]
+    maxsum1 = maxSubSum1(num)
+    maxsum2 = maxSubSum2(num)
+    maxsum3 = maxSubSum3(num)
+    maxsum4 = maxSubSum4(num)
 
-# print(maxsum1)
-# print(maxsum2)
-# print(maxsum3)
-print(maxsum4)
+    print(maxsum1)
+    print(maxsum2)
+    print(maxsum3)
+    print(maxsum4)

@@ -22,10 +22,6 @@ class Node:
     def setNext(self, newnext):
         self.next = newnext
 
-# 测试
-assert Node(93).getData() == 93, "error"
-
-
 # 实现无序链表类
 class UnorderedList:
     # 初始化，头节点为空
@@ -120,31 +116,36 @@ class UnorderedList:
     #         current = current.getNext()
     #     previous.setNext(temp) # 修改
 
-# # 测试
-# mylist = UnorderedList()
 
-# mylist.add(31)
-# mylist.add(77)
-# mylist.add(17)
-# mylist.add(93)
-# mylist.add(26)
-# mylist.add(54)
+if __name__ == '__main__':
+    # 测试
+    assert Node(93).getData() == 93, "error"
 
-# print(mylist.size())
-# print(mylist.search(93))
-# print(mylist.search(100))
+    # 测试
+    mylist = UnorderedList()
 
-# mylist.add(100)
-# print(mylist.search(100))
-# print(mylist.size())
+    mylist.add(31)
+    mylist.add(77)
+    mylist.add(17)
+    mylist.add(93)
+    mylist.add(26)
+    mylist.add(54)
 
-# mylist.remove(54)
-# print(mylist.size())
-# mylist.remove(93)
-# print(mylist.size())
-# mylist.remove(31)
-# print(mylist.size())
-# print(mylist.search(93))
+    print(mylist.size())
+    print(mylist.search(93))
+    print(mylist.search(100))
 
-# mylist.append(123)
-# print(mylist.size())
+    mylist.add(100)
+    print(mylist.search(100))
+    print(mylist.size())
+
+    mylist.remove(54)
+    print(mylist.size())
+    mylist.remove(93)
+    print(mylist.size())
+    mylist.remove(31)
+    print(mylist.size())
+    print(mylist.search(93))
+
+    mylist.append(123)
+    print(mylist.size())

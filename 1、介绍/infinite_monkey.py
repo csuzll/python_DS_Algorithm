@@ -52,4 +52,5 @@ def main():
             print(bestscore, bestsring)
         loopcount += 1
 
-main()
+if __name__ == '__main__':
+    main()

@@ -15,8 +15,6 @@ def dec2bin(decnumber):
         binString = binString + str(remstack.pop())
     return binString
 
-print(dec2bin(42))
-
 # 扩展，10进制转换为任意进制
 def baseConverter(decnumber, base):
     digits = "0123456789ABCDEF"
@@ -34,5 +32,7 @@ def baseConverter(decnumber, base):
 
     return newString
 
-print(baseConverter(25,2))
-print(baseConverter(256,16))
+if __name__ == '__main__':
+    print(dec2bin(42))
+    print(baseConverter(25,2))
+    print(baseConverter(256,16))

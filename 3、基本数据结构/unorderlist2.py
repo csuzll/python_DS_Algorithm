@@ -25,10 +25,6 @@ class Node:
     def setNext(self, newnext):
         self.next = newnext
 
-# 测试
-assert Node(93).getData() == 93, "error"
-
-
 # 实现无序链表类
 class UnorderedList:
     # 初始化，头节点为空
@@ -239,49 +235,51 @@ class UnorderedList:
             previous.setNext(temp)
             self.length += 1
 
+if __name__ == '__main__':
+    # 测试
+    assert Node(93).getData() == 93, "error"
 
-# mylist = UnorderedList()
+    mylist = UnorderedList()
 
-# mylist.add(31) # 31
-# mylist.add(77) # 77,31
-# mylist.add(17) # 17,77,31
-# mylist.add(93) # 93,17,77,31
-# mylist.add(26) # 26,93,17,77,31
-# mylist.add(54) # 54,26,93,17,77,31
+    mylist.add(31) # 31
+    mylist.add(77) # 77,31
+    mylist.add(17) # 17,77,31
+    mylist.add(93) # 93,17,77,31
+    mylist.add(26) # 26,93,17,77,31
+    mylist.add(54) # 54,26,93,17,77,31
 
-# print(mylist.size()) # 6
-# print(mylist) # 54,26,93,17,77,31
-# print(mylist.search(93)) # True
-# print(mylist.search(100)) # False
+    print(mylist.size()) # 6
+    print(mylist) # 54,26,93,17,77,31
+    print(mylist.search(93)) # True
+    print(mylist.search(100)) # False
 
-# mylist.add(100) # 100,54,26,93,17,77,31
-# print(mylist)
-# print(mylist.search(100)) # True
-# print(mylist.size()) # 7
+    mylist.add(100) # 100,54,26,93,17,77,31
+    print(mylist)
+    print(mylist.search(100)) # True
+    print(mylist.size()) # 7
 
-# mylist.remove(54) # 100,26,93,17,77,31
-# print(mylist.size()) # 6
-# mylist.remove(93) # 100,26,17,77,31
-# print(mylist.size()) # 5
-# mylist.remove(31) # 100,26,17,77
-# print(mylist.size()) # 4
-# print(mylist.search(93)) # False
+    mylist.remove(54) # 100,26,93,17,77,31
+    print(mylist.size()) # 6
+    mylist.remove(93) # 100,26,17,77,31
+    print(mylist.size()) # 5
+    mylist.remove(31) # 100,26,17,77
+    print(mylist.size()) # 4
+    print(mylist.search(93)) # False
 
-# mylist.append(123) # 100,26,17,77,123
-# print(mylist) # 100,26,17,77,123
-# print(mylist.size()) # 5
-# print(mylist.index(3)) # 没有，则返回[]
+    mylist.append(123) # 100,26,17,77,123
+    print(mylist) # 100,26,17,77,123
+    print(mylist.size()) # 5
+    print(mylist.index(3)) # 没有，则返回[]
 
-# for node in mylist[0:3]: # 100,26,17
-#     print(node)
-# print(mylist[2]) # 17
+    for node in mylist[0:3]: # 100,26,17
+        print(node)
+    print(mylist[2]) # 17
 
-# print(mylist)
- 
-# print(mylist.pop(mylist.size()-1)) # 123
-# print(mylist.size())
-# print(mylist)
+    print(mylist)
+     
+    print(mylist.pop(mylist.size()-1)) # 123
+    print(mylist.size())
+    print(mylist)
 
-# mylist.insert(3, 3) # ,100,26,17,77
-# print(mylist)
-
+    mylist.insert(3, 3) # ,100,26,17,77
+    print(mylist)

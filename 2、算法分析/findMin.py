@@ -24,16 +24,17 @@ def findMin2(alist):
             overallmin = num
     return overallmin
 
-for listSize in range(1000,10001,1000):
-    alist = [randrange(100000) for x in range(listSize)]
-    start = time.time()
-    print(findMin1(alist))
-    end = time.time()
-    print("size: %d time: %f" % (listSize, end-start))
+if __name__ == '__main__':
+    for listSize in range(1000,10001,1000):
+        alist = [randrange(100000) for x in range(listSize)]
+        start = time.time()
+        print(findMin1(alist))
+        end = time.time()
+        print("size: %d time: %f" % (listSize, end-start))
 
-for listSize2 in range(1000,10001,1000):
-    alist = [randrange(100000) for x in range(listSize2)]
-    start = time.time()
-    print(findMin2(alist))
-    end = time.time()
-    print("size: %d time: %f" % (listSize2, end-start))
+    for listSize2 in range(1000,10001,1000):
+        alist = [randrange(100000) for x in range(listSize2)]
+        start = time.time()
+        print(findMin2(alist))
+        end = time.time()
+        print("size: %d time: %f" % (listSize2, end-start))

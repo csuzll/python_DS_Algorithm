@@ -145,18 +145,16 @@ class OrderedList:
             return cur_ind
         else:
             return -1
+if __name__ == '__main__':
+    # 测试
+    mylist = OrderedList()
+    mylist.add(31)
+    mylist.add(77)
+    mylist.add(17)
+    mylist.add(93)
+    mylist.add(26)
+    mylist.add(54)
 
-
-
-# 测试
-mylist = OrderedList()
-mylist.add(31)
-mylist.add(77)
-mylist.add(17)
-mylist.add(93)
-mylist.add(26)
-mylist.add(54)
-
-print(mylist.size())
-print(mylist.search(93))
-print(mylist.search(100))
+    print(mylist.size())
+    print(mylist.search(93))
+    print(mylist.search(100))

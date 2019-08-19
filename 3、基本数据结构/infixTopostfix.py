@@ -61,12 +61,13 @@ def infixTopostfix(infixexpr):
     # " ".join(iterable)是指在可迭代对象中插入空格
     return " ".join(postfixlist)
 
-print(infixTopostfix("A * B + C * D"))  #  A B * C D * +
-print(infixTopostfix("( A + B ) * C - ( D - E ) * ( F + G )"))  #  A B + C * D E - F G + * -
-print(infixTopostfix("5 * 3 ** ( 4 - 2 )")) # 5 3 4 2 - ** *
-# print(infixTopostfix("( A + B ) * C - ( D - E ) ) * ( F + G)")) # 出错
-print(infixTopostfix("( 1 + 3 ) / ( ( 3 - 8 ) * 9 )")) # 1 3 + 3 8 - 9 * /
+if __name__ == '__main__':
+    print(infixTopostfix("A * B + C * D"))  #  A B * C D * +
+    print(infixTopostfix("( A + B ) * C - ( D - E ) * ( F + G )"))  #  A B + C * D E - F G + * -
+    print(infixTopostfix("5 * 3 ** ( 4 - 2 )")) # 5 3 4 2 - ** *
+    # print(infixTopostfix("( A + B ) * C - ( D - E ) ) * ( F + G)")) # 出错
+    print(infixTopostfix("( 1 + 3 ) / ( ( 3 - 8 ) * 9 )")) # 1 3 + 3 8 - 9 * /
 
-print(infixTopostfix("( A + B ) * ( C + D ) * ( E + F )"))
-print(infixTopostfix("A + ( ( B + C ) * ( D + E ) )"))
-print(infixTopostfix("A * B * C * D + E + F"))
+    print(infixTopostfix("( A + B ) * ( C + D ) * ( E + F )"))
+    print(infixTopostfix("A + ( ( B + C ) * ( D + E ) )"))
+    print(infixTopostfix("A * B * C * D + E + F"))

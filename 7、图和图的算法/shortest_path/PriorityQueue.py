@@ -68,14 +68,14 @@ class PriorityQueue:
         return retVal
 
     # 判空
-    def isEmpyt(self):
+    def isEmpty(self):
         if self.currentSize == 0:
             return True
         else:
             return False
             
     # 实现for... in...
-    def __contain__(self, vtx):
+    def __contains__(self, vtx):
         for pair in self.priorqueue:
             if pair[1] == vtx:
                 return True

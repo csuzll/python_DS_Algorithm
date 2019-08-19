@@ -25,10 +25,11 @@ class Queue:
                 self.outbox.push(self.inbox.pop())
         return self.outbox.pop()
 
-q3 = Queue()
-q3.enqueue(1)
-q3.enqueue(2)
-q3.enqueue(3)
-print(q3.dequeue())
-print(q3.dequeue())
-print(q3.dequeue())
+if __name__ == '__main__':
+    q3 = Queue()
+    q3.enqueue(1)
+    q3.enqueue(2)
+    q3.enqueue(3)
+    print(q3.dequeue())
+    print(q3.dequeue())
+    print(q3.dequeue())

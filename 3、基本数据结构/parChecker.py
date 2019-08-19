@@ -23,9 +23,6 @@ def parChecker(symbolString):
     else:
         return False
         
-print(parChecker('((()))')) # True
-print(parChecker('(()')) # False
-
 # 符号平衡性检查
 # 包括括号，中括号，花括号
 def parChecker2(symbolString):
@@ -59,8 +56,11 @@ def matches(open, close):
     # 按其位置的index进行匹配
     return opens.index(open) == closers.index(close)
 
-print(parChecker2('{{([][])}()}')) # True
-print(parChecker2('[{()]')) # False
+if __name__ == '__main__':
+    print(parChecker('((()))')) # True
+    print(parChecker('(()')) # False
+    print(parChecker2('{{([][])}()}')) # True
+    print(parChecker2('[{()]')) # False
 
 
 

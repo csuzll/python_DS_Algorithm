@@ -36,8 +36,9 @@ def radix_sorting_machine(numlist):
     # 最后就是返回已经从小到大排好序的数字list了。           
     return numlist
 
-print(get_max_num_len([10, 20, 300]))
-print(get_num_by_order(876, 2))
-print(get_num_by_order(876, 4))
-print(radix_sorting_machine([10, 20, 300]))
-print(radix_sorting_machine([20, 1, 3, 677, 98, 25]))
+if __name__ == '__main__':
+    print(get_max_num_len([10, 20, 300]))
+    print(get_num_by_order(876, 2))
+    print(get_num_by_order(876, 4))
+    print(radix_sorting_machine([10, 20, 300]))
+    print(radix_sorting_machine([20, 1, 3, 677, 98, 25]))

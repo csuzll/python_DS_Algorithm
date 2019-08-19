@@ -18,9 +18,6 @@ def palChecker(astring):
 
     return stillEqual
 
-print(palChecker("lsdkjfskf"))
-print(palChecker("radar"))
-
 # 改写回文检测的代码，使得有空格也可以检测（忽略空格）
 def palChecker2(astring):
     chardeque = Deque()
@@ -39,4 +36,7 @@ def palChecker2(astring):
             stillEqual = False
     return stillEqual
 
-print(palChecker2("I PREFER PI"))
+if __name__ == '__main__':
+    print(palChecker("lsdkjfskf"))
+    print(palChecker("radar"))
+    print(palChecker2("I PREFER PI"))

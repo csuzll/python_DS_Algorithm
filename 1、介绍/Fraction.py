@@ -138,59 +138,61 @@ class Fraction:
         return "num: {}, " "den: {}".format(self.num, self.den)
 
 # 测试
+def main():
+    # 测试非整数
+    try:
+        assert Fraction(0.1, 2)
+    except ValueError as e:
+        print("Int number test is ok.")
 
-# 测试非整数
-try:
-    assert Fraction(0.1, 2)
-except ValueError as e:
-    print("Int number test is ok.")
+    # 测试分母不能为0
+    try:
+        assert Fraction(2, 0), "den is zero"
+    except ZeroDivisionError as e:
+        print("zero denominator test is ok.")
 
-# 测试分母不能为0
-try:
-    assert Fraction(2, 0), "den is zero"
-except ZeroDivisionError as e:
-    print("zero denominator test is ok.")
+    # 测试分子为0的输出
+    print(Fraction(0, 1))  # 输出为"0"
 
-# 测试分子为0的输出
-print(Fraction(0, 1))  # 输出为"0"
+    # 测试分子分母为均为正整数
+    print(Fraction(2, 4)) # 输出"1/2"
+    # 测试分子分母均为负整数
+    print(Fraction(-2, -4)) # 输出"1/2"
+    # 测试分子为负整数，分母为正整数
+    print(Fraction(-2, 4))  # 输出"-1/2"
+    # 测试分子为正整数，分母为负整数
+    print(Fraction(2, -4))  # 输出"-1/2"，负号不在分母前
 
-# 测试分子分母为均为正整数
-print(Fraction(2, 4)) # 输出"1/2"
-# 测试分子分母均为负整数
-print(Fraction(-2, -4)) # 输出"1/2"
-# 测试分子为负整数，分母为正整数
-print(Fraction(-2, 4))  # 输出"-1/2"
-# 测试分子为正整数，分母为负整数
-print(Fraction(2, -4))  # 输出"-1/2"，负号不在分母前
+    x = Fraction(1, 2)
+    y = Fraction(2, 3)
+    z = Fraction(2, 4)
 
+    # 以下测试仅支持同类实例
+    # 测试"__add__"
+    print(x + y) # 输出"7/6"
+    print(x - y) # 输出"-1/6"
+    print(x * y) # 输出"-1/3"
+    print(x / y) # 输出"3/4"
+    print(x == y) # False
+    print(x != y) # True
+    print(x == z) # True
+    print(x < y)  # True
+    print(x > y)  # False
+    print(x <= y) # True
+    print(x >= y) # False
+    print(x <= z) # True
+    print(x >= z) # True
+    x += y
+    print(x) # x变为了"7/6"
 
-# 
-x = Fraction(1, 2)
-y = Fraction(2, 3)
-z = Fraction(2, 4)
+    # 分数类型和不同类型的相加
+    # 测试"__radd__()"
+    print(1 + z) # 输出"3/2"，分数必须在其他类型之后
+    # print(z + 1) 会出错
 
-# 以下测试仅支持同类实例
-# 测试"__add__"
-print(x + y) # 输出"7/6"
-print(x - y) # 输出"-1/6"
-print(x * y) # 输出"-1/3"
-print(x / y) # 输出"3/4"
-print(x == y) # False
-print(x != y) # True
-print(x == z) # True
-print(x < y)  # True
-print(x > y)  # False
-print(x <= y) # True
-print(x >= y) # False
-print(x <= z) # True
-print(x >= z) # True
-x += y
-print(x) # x变为了"7/6"
+    # 测试"__repr__()"
+    print(repr(z))
 
-# 分数类型和不同类型的相加
-# 测试"__radd__()"
-print(1 + z) # 输出"3/2"，分数必须在其他类型之后
-# print(z + 1) 会出错
+if __name__ == '__main__':
+    main()
 
-# 测试"__repr__()"
-print(repr(z))

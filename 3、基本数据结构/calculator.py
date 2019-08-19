@@ -87,6 +87,7 @@ class Calculator:
         else:
             return op1 - op2
 
-cal = Calculator()
-expr = "( 1 + 3 ) / ( ( 3 - 8 ) * 9 )"
-print(cal.calc(expr)) #  -0.08888888888888889
+if __name__ == '__main__':
+    cal = Calculator()
+    expr = "( 1 + 3 ) / ( ( 3 - 8 ) * 9 )"
+    print(cal.calc(expr)) #  -0.08888888888888889
