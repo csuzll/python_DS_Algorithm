@@ -9,7 +9,6 @@
 稳定
 """
 
-
 # 基本插入排序
 def insertionSort(alist):
     """
@@ -26,13 +25,8 @@ def insertionSort(alist):
 
         alist[position] = currentvalue # 合适的位置插入元素
 
-alist = [54,26,93,17,77,31,44,55,20]
-insertionSort(alist)
-print(alist)
-
-
 # 改进，折半插入(利用二分查找法来减少比较的次数)
-def insertionSort2(alist):
+def insertionSort1(alist):
     """
     外层循环控制循环次数，
     内层循环第一个确定待插入的位置与范围，
@@ -61,6 +55,11 @@ def insertionSort2(alist):
         if left != index:
             alist[left] = currentvalue
 
-alist = [54,26,93,17,77,31,44,55,20]
-insertionSort2(alist)
-print(alist)
+if __name__ == '__main__':
+    alist = [54,26,93,17,77,31,44,55,20]
+    insertionSort(alist)
+    print(alist)
+
+    alist = [54,26,93,17,77,31,44,55,20]
+    insertionSort1(alist)
+    print(alist)

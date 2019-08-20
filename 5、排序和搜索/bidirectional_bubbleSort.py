@@ -25,7 +25,7 @@ def bidirectional_bubbleSort(alist):
                     alist[j], alist[j-1] = alist[j-1], alist[j]
         i += 1
 
-
-alist = [54,26,93,17,77,31,44,55,20]
-bidirectional_bubbleSort(alist)
-print(alist)
+if __name__ == '__main__':
+    alist = [54,26,93,17,77,31,44,55,20]
+    bidirectional_bubbleSort(alist)
+    print(alist)

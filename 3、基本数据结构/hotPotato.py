@@ -1,7 +1,7 @@
 from queue import Queue
 
 # 模拟Hot Potato游戏
-# 类似于击鼓传花，约瑟夫环问题。
+# 类似于击鼓传花，约瑟夫环问题（n个人围成一圈，从1开始报数，每当有人报到m时，他被淘汰，下一个人继续从1开始报数，问最后的获胜者是谁？）
 
 def hotPotato(namelist, num):
 

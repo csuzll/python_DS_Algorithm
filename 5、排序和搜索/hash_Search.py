@@ -2,6 +2,7 @@
 
 # 构造以简单取余法作为哈希函数，间隔为1的线性探测为解决冲突方法，大小为11的哈希表
 # 当hash表满时，扩充hash表的大小
+# 实现哈希表相当于实现一个Map
 
 class HashTable:
     def __init__(self):
@@ -28,7 +29,7 @@ class HashTable:
     def rehash(self, oldhash, size):
         return (oldhash+1) % size
 
-    # # 扩容(不知道实现得对不对)
+    # # 扩容（不知道实现的对不对）
     # def resize(self):
     #     # 扩容到原有元素数量的两倍
     #     self.size = self.num * 2
@@ -60,8 +61,7 @@ class HashTable:
     #                     else:
     #                         self.data[newhashvalue] = value # replace
 
-
-    # 存放key和value
+    # 插入key和value
     def put(self, key, value):
         hashvalue = self.hashfuction(key, self.size) # 计算哈希值
 
@@ -90,11 +90,15 @@ class HashTable:
                 else:
                     self.data[newhashvalue] = value # replace
 
-    # 获取value
+    # 支持以"HashTable[key]=value"方式添加
+    def __setitem__(self, key, value):
+        self.put(key, value)
+
+    # 获取value（哈希查找的复杂度并不完全是O(1)，取决于哈希表的负载因子。负载因子越大，发生碰撞的可能性越高）
     def get(self, key):
         startslot = self.hashfuction(key, self.size) # 计算哈希值, 最初的哈希值，作为重新散列探测的停止条件
 
-        data = -1
+        data = -1 # -1表示没找到，返回-1
         stop = False
         found = False
         position = startslot  
@@ -106,9 +110,14 @@ class HashTable:
                 data = self.data[position]
             else:
                 position = self.rehash(position, self.size) # 重新散列
+                # 重新散列回到初始哈希值时，说明无法找到，可以停止了
                 if position == startslot:
                     stop = True
         return data
+
+    # 支持以"HashTable[key]"方式读取
+    def __getitem__(self, key):
+        return self.get(key)
 
     # # 删除key和value 
     # # (这样删除是有问题的，比如删除记录a，记录b是在a之后插入的且与a有冲突，a的位置变为空槽，这样会导致记录b在a的位置重新插入数据前不可见)
@@ -140,54 +149,52 @@ class HashTable:
     #             self.num -= 1
     #             return
 
-    # 支持以"HashTable[key]"方式读取
-    def __getitem__(self, key):
-        return self.get(key)
+    # # 支持以"del HashTable[key]"方式删除
+    # def __delitem__(self, key):
+    #     self.delet(key)
 
-    # 支持以"HashTable[key]=value"方式添加
-    def __setitem__(self, key, value):
-        self.put(key, value)
-
-    # 支持以"del HashTable[key]"方式删除
-    def __delitem__(self, key):
-        self.delet(key)
-
-    # 实现in方法（有点问题）
+    # 实现for key in hashtable
     def __contains__(self, key):
-        isIn = False
-        if key in self.slots:
-            isIn = True
-        return isIn
+        if self.get(key) != -1:
+            return True
+        else:
+            return False
+
+    # 实现for ... in ...
+    # 遍历key
+    def __iter__(self):
+        for key in self.slots:
+            if key != None:
+                yield key
 
     # 支持以"len(HashTable)"获取key的数量
     def __len__(self):
         return self.num
 
+if __name__ == '__main__':
+    # 测试
+    H = HashTable()
 
-# 测试
-H=HashTable()
+    # 添加
+    H[54] = "cat"
+    H[26] = "dog"
+    H[93] = "lion"
+    H[17] = "tiger"
+    H[77] = "bird"
+    H[31] = "cow"
 
-H[54]="cat"
-H[26]="dog"
-H[93]="lion"
-H[17]="tiger"
-H[77]="bird"
-H[31]="cow"
+    print(H.slots)
+    print(H.data)
+    print(len(H))
 
+    print(H[17])
+    H[17] = 'duck'
+    print(H[17])
+    print(H[99]) # 输出-1，因为没有key=99
 
-print(H.slots)
-print(H.data)
-print(len(H))
+    # 测试__contains__()方法
+    if 77 in H:
+        print("77 is in H")
 
-print(H[17])
-H[17]='duck'
-print(H[17])
-print(H[99])
-
-# del H[31]
-# print(H.slots)
-# print(H.data)
-# print(len(H))
-
-if 77 in H:
-    print(True)
+    for k in H:
+        print(k, end=" ")

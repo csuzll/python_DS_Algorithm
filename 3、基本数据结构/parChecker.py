@@ -1,6 +1,6 @@
 from stack import Stack
 
-# 括号平衡性检查
+# 括号平衡性检查(单种括号)
 def parChecker(symbolString):
     s = Stack()
     balanced = True
@@ -11,11 +11,10 @@ def parChecker(symbolString):
         if symbol == "(": # 左括号则入栈
             s.push(symbol)
         else:
-            if s.isEmpty():
+            if s.isEmpty(): # 遇到右括号但是栈是空的
                 balanced = False
             else: # 遇到右括号就弹出一个左括号
                 s.pop()
-
         index = index + 1
 
     if balanced and s.isEmpty():
@@ -23,8 +22,7 @@ def parChecker(symbolString):
     else:
         return False
         
-# 符号平衡性检查
-# 包括括号，中括号，花括号
+# 符号平衡性检查(包括括号，中括号，花括号)
 def parChecker2(symbolString):
     s = Stack()
     balanced = True
@@ -50,15 +48,16 @@ def parChecker2(symbolString):
     else:
         return False
 
-def matches(open, close):
+def matches(a_open, a_close):
     opens = "([{"
     closers = ")]}"
     # 按其位置的index进行匹配
-    return opens.index(open) == closers.index(close)
+    return opens.index(a_open) == closers.index(a_close)
 
 if __name__ == '__main__':
     print(parChecker('((()))')) # True
     print(parChecker('(()')) # False
+
     print(parChecker2('{{([][])}()}')) # True
     print(parChecker2('[{()]')) # False
 

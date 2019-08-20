@@ -145,6 +145,7 @@ class OrderedList:
             return cur_ind
         else:
             return -1
+            
 if __name__ == '__main__':
     # 测试
     mylist = OrderedList()

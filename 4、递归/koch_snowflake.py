@@ -14,11 +14,13 @@ def draw_koch(length, order, myTurtle):
     for i in range(3):
         koch(length, order, myTurtle)
         myTurtle.right(120)
-        
-myTurtle = turtle.Turtle()
-myWin = turtle.Screen()
-myTurtle.pensize(2)
-myTurtle.speed(10)
-myTurtle.goto(0, 0)
-myTurtle.down()
-draw_koch(100., 3, myTurtle)
+    
+
+if __name__ == '__main__':
+    myTurtle = turtle.Turtle()
+    myWin = turtle.Screen()
+    myTurtle.pensize(2)
+    myTurtle.speed(10)
+    myTurtle.goto(0, 0)
+    myTurtle.down()
+    draw_koch(100., 3, myTurtle)

@@ -13,5 +13,5 @@ def moveTower(height, fromPole, toPole, withPole):
         print("moving Plate %d from %s to %s" % (height, fromPole, toPole))
         # 将height-1从withPole借助fromPole移动到toPole
         moveTower(height-1, withPole, toPole, fromPole)
-
-moveTower(3,"A","B","C")
+if __name__ == '__main__':
+    moveTower(3,"A","B","C")

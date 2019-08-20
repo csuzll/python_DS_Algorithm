@@ -50,17 +50,6 @@ class Stack2:
     def size(self):
         return len(self.items)
 
-# 使用stack实现字符串反转
-def revstring(mystr):
-    s = Stack()
-    revstr = ""
-
-    for c in mystr:
-        s.push(c)
-    while not s.isEmpty():
-        revstr = revstr + s.pop()
-    return revstr
-
 if __name__ == '__main__':
     # 测试
     s = Stack()
@@ -80,11 +69,6 @@ if __name__ == '__main__':
     s.push('hello') # ["hello"]
     s.push('true') # ["true", "hello"]
     print(s.pop()) # "true"
-
-    # 测试
-assert revstring("apple") == "elppa", "apple Error"
-assert revstring("x") == "x", "x Error"
-assert revstring("1234567890") == "0987654321", "error"
 
 """
 选择list[0]作为top还是base，在时间复杂度上有着截然不同的区别。因为list的append和pop()操作都

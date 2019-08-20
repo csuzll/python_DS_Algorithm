@@ -10,9 +10,7 @@
 稳定
 """
 
-
 # 归并排序(递归实现)
-
 def mergeSort(alist):
     print("Splitting ", alist)
 
@@ -25,7 +23,6 @@ def mergeSort(alist):
         # 分别对左半部分和右半部分继续划分
         mergeSort(lefthalf) 
         mergeSort(righthalf)
-
 
         # 排序子序列，并合并
         i = 0 # 左列表索引
@@ -52,13 +49,8 @@ def mergeSort(alist):
             k += 1
     print("Merging ", alist)
 
-alist = [54,26,93,17,77,31,44,55,20]
-mergeSort(alist)
-print(alist)
-
-### 改进归并排序，不使用切片操作，传递序号
-def mergeSort2(alist, first=0, last=None):
-    # 让下面递归传上来的元素个数不改变，而只是传递序号
+### 改进归并排序，不使用切片操作
+def mergeSort1(alist, first=0, last=None):
     last = len(alist) if last==None else last
 
     print("Splitting: ", alist, "first: ", first, "last: ", last)
@@ -67,8 +59,8 @@ def mergeSort2(alist, first=0, last=None):
     if (last - first > 1):
         # 一分为二
         mid = (first + last) // 2
-        mergeSort2(alist, first, mid) # 左部分
-        mergeSort2(alist, mid, last) # 右部分
+        mergeSort1(alist, first, mid) # 左部分
+        mergeSort1(alist, mid, last) # 右部分
 
         # 排序子序列，并合并
         i = first # 左列表索引
@@ -98,6 +90,11 @@ def mergeSort2(alist, first=0, last=None):
 
         print("Merging: ", alist, "first: ", first, "last: ", last)
 
-alist = [54,26,93,17,77,31,44,55,20]
-mergeSort2(alist)
-print(alist)
+if __name__ == '__main__':
+    alist = [54,26,93,17,77,31,44,55,20]
+    mergeSort(alist)
+    print(alist)
+
+    alist = [54,26,93,17,77,31,44,55,20]
+    mergeSort1(alist)
+    print(alist)

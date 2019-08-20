@@ -1,12 +1,7 @@
 # 直接构建二叉树类，此类包含结点值，左孩子，右孩子属性。
 
 '''
-    This is an example of a BinaryTree data structure 
-    built as a class 
-    
-    This example will only work if the rootObj passed into the
-    class is a python primitive data type.
-
+    结点类构造二叉树
     使用class构建二叉树
 '''
 

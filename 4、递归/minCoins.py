@@ -1,7 +1,6 @@
 # 找零问题中的优化问题。
 # 最小硬币数
 
-
 # 递归方法解答，速度非常慢
 def recMC(coinValueList, change):
 	# coinValueList: 硬币列表
@@ -20,12 +19,9 @@ def recMC(coinValueList, change):
 
 	return minCoins
 
-# print(recMC([1,5,10,25], 63))
-
-
 # 优化，保存任意找零的硬币的最小数量在表中
 # 这种方法应该叫做记忆化或者缓存的技术。
-def recDC(coinValueList, change, knownResults):
+def recDC2(coinValueList, change, knownResults):
 	# coinValueList: 硬币列表
 	# change: 找零
 	# knownResults: 找零硬币最小列表 
@@ -45,4 +41,6 @@ def recDC(coinValueList, change, knownResults):
 
 	return minCoins
 
-print(recDC([1,5,10,25], 63, [0]*64))
+if __name__ == '__main__':
+	print(recMC([1,5,10,25], 63))
+	print(recDC2([1,5,10,25], 63, [0]*64))

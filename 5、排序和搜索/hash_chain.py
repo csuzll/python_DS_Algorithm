@@ -30,7 +30,6 @@ class MyHashMap1:
     def remove(self, key):
         self.bitmap[key] = -1
 
-
 # 实现方法二: 以简单取余法作为哈希函数，链地址法为解决冲突方法，构造哈希表
 # 省内存
 class MyHashMap:
@@ -84,7 +83,6 @@ class MyHashMap:
         if self.hashmap[hashkey]:
             self.hashmap[hashkey][self.pos(key)] = None
 
-
 # 实现方法3
 class MyHashMap3(object):
 
@@ -122,14 +120,14 @@ class MyHashMap3(object):
         row, col = key / 1000, key % 1000
         self.bitmap[row][col] = -1
 
-
-# 测试
-hashMap = MyHashMap()
-hashMap.put(1, 1)
-hashMap.put(2, 2)
-print(hashMap.get(1))         # returns 1
-print(hashMap.get(3))         # returns -1 (not found)
-hashMap.put(2, 1)      # update the existing value
-print(hashMap.get(2))         # returns 1 
-hashMap.remove(2)      # remove the mapping for 2
-print(hashMap.get(2))         # returns -1 (not found) 
+if __name__ == '__main__':
+    # 测试
+    hashMap = MyHashMap()
+    hashMap.put(1, 1)
+    hashMap.put(2, 2)
+    print(hashMap.get(1))         # returns 1
+    print(hashMap.get(3))         # returns -1 (not found)
+    hashMap.put(2, 1)      # update the existing value
+    print(hashMap.get(2))         # returns 1 
+    hashMap.remove(2)      # remove the mapping for 2
+    print(hashMap.get(2))         # returns -1 (not found) 

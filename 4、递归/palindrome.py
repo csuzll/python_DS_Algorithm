@@ -14,9 +14,10 @@ def isPalindrome(aString):
     else:
         return aString[0] == aString[-1] and isPalindrome(aString[1:-1])
 
-assert isPalindrome("x") == True, "error1"
-assert isPalindrome("radar") == True, "error2"
-assert isPalindrome("hello") == False, "error3"
-assert isPalindrome("") == True, "error4"
-assert isPalindrome("hannah") == True, "error5"
-assert isPalindrome("madam i'm adam") == True, "error6"
+if __name__ == '__main__':
+    assert isPalindrome("x") == True, "error1"
+    assert isPalindrome("radar") == True, "error2"
+    assert isPalindrome("hello") == False, "error3"
+    assert isPalindrome("") == True, "error4"
+    assert isPalindrome("hannah") == True, "error5"
+    assert isPalindrome("madam i'm adam") == True, "error6"

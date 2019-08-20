@@ -1,17 +1,24 @@
 # 希尔排序
 """
-把元素按下标的增量序列分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，
-每组包含的关键词越来越多，当增量减至1时，整个列表恰被分成一组，算法便终止。
+从增量的初始值选取，到逐渐变为1，将所有用过的增量组成一个序列，就是增量序列。
+
+给定一个增量序列[a1,a2,...,an]，增量序列最后一个元素an=1。
+首先以a1为增量，对列表分组，每个分组进行排序(一般是插入排序)。
+然后以a2为增量，对列表分组，每个分组进行排序。
+直到以1为增量，整个列表恰被分成一组，插入排序后算法便终止。
 
 时间复杂度:平均O(NlogN)到O(N^2)之间，最好O(N), 最坏O(N^2)
 空间复杂度:O(1)
 
-Hibbard增量序列：1,4,7,…,2^k-1。这个增量的特点是增量没有公因子。
+希尔增量序列: [N//2, (N//2)//2, ..., 1]
+
+Hibbard增量的递推公式：H(1) = 1, H(i)=2*H(i-1)+1。即是[1, 3, 7, ... , 2ⁿ-1]
+这个增量的特点是增量没有公因子。
+初始增量2ⁿ-1中的n等于log(n+1)取整。
 使用Hibbard增量的希尔排序的最坏情形运行时间为θ(N^(3/2))。
 
 不稳定
 """
-
 
 # 希尔排序需要的插入排序
 def gapInsertSort(alist, start, gap):
@@ -19,6 +26,7 @@ def gapInsertSort(alist, start, gap):
     start: 子序列的起始位置 
     gap: 增量
     """
+    # start+gap为子序列中的第二个数，第一个数假定有序了。
     for i in range(start+gap, len(alist), gap): # 从索引start+gap到最后一个元素进行插入
         currentValue = alist[i]
         position  = i
@@ -41,45 +49,44 @@ def shellSort(alist):
 
         increment = increment // 2 # 增量减半
 
-alist = [54,26,93,17,77,31,44,55,20]
-shellSort(alist)
-print(alist)
 
-
-# 上述代码写为一个函数
-def shellSort2(alist):
+# 希尔排序另一种写法
+def shellSort1(alist):
     gap = len(alist)
 
     while gap > 1:
         gap = gap // 2
 
-        for i in range(gap, len(alist)):
+        for i in range(gap, len(alist)): # 从gap到最后一个元素
             for j in range(i % gap, i, gap):
                 if alist[i] < alist[j]:
                     alist[i], alist[j] = alist[j], alist[i]
-    return alist
 
-alist = [54,26,93,17,77,31,44,55,20]
-shellSort2(alist)
-print(alist)
-
-# 或者下面这个
-def shellSort3(alist):
+# 使用Hibbard增量实现希尔排序
+def shellSort2(alist):
     length = len(alist)
-
     gap = 1
-
-    while gap < length // 3:
-        gap = gap * 3 + 1 # 动态定义间隔序列
+    while gap < length // 2:
+        gap = gap * 2 + 1 # 动态定义间隔序列
     while gap > 0:
         for i in range(gap, length):
-            curNum, preIndex = alist[i], i - gap # curNum 保存当前待插入的数
+            curNum = alist[i] # curNum 保存当前待插入的数
+            preIndex = i - gap
             while preIndex >=0 and curNum < alist[preIndex]: 
-                alist[preIndex + gap] = alist[preIndex] # 将比 curNum 大的元素向后移动
+                alist[preIndex+gap] = alist[preIndex] # 将比 curNum 大的元素向后移动
                 preIndex -= gap
             alist[preIndex+gap] = curNum # 待插入的数的正确位置
-        gap //= 3  # 下一个动态间隔
+        gap //= 2  # 下一个动态间隔
 
-alist = [54,26,93,17,77,31,44,55,20]
-shellSort3(alist)
-print(alist)
+if __name__ == '__main__':
+    alist = [54,26,93,17,77,31,44,55,20]
+    shellSort(alist)
+    print(alist)
+
+    alist = [54,26,93,17,77,31,44,55,20]
+    shellSort1(alist)
+    print(alist)
+
+    alist = [54,26,93,17,77,31,44,55,20]
+    shellSort2(alist)
+    print(alist)

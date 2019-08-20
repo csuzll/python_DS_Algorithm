@@ -31,4 +31,5 @@ def main_hanoi(height):
     t_from.stack = list(range(height, 0, -1))
     moveTower(height, t_from, t_to, t_with)
     
-main_hanoi(3)
+if __name__ == '__main__':
+    main_hanoi(3)

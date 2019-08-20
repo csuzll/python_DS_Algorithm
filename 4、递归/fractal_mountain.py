@@ -49,4 +49,5 @@ def main():
     mountain(900, -450, "blue", myTurtle)
     myWin.exitonclick()
 
-main()
+if __name__ == '__main__':
+    main()

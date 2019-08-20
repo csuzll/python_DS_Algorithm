@@ -152,9 +152,9 @@ def searchFrom(maze, startRow, startColumn):
         maze.updatePosition(startRow, startColumn, DEAD_END)
     return found
 
+if __name__ == '__main__':
+    myMaze = Maze('maze.txt')
+    myMaze.drawMaze()
+    myMaze.updatePosition(myMaze.startRow,myMaze.startCol)
 
-myMaze = Maze('maze.txt')
-myMaze.drawMaze()
-myMaze.updatePosition(myMaze.startRow,myMaze.startCol)
-
-searchFrom(myMaze, myMaze.startRow, myMaze.startCol)
+    searchFrom(myMaze, myMaze.startRow, myMaze.startCol)

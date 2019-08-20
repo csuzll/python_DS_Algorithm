@@ -19,12 +19,12 @@ def draw_hilbert(myTurtle, x0, y0, xis, yis, xjs, yjs, n):
         draw_hilbert(myTurtle, x0+xis/2+yis/2, y0+xjs/2+yjs/2, xis/2, yis/2, xjs/2, yjs/2,n-1)  # 画右上角分区 
         draw_hilbert(myTurtle, x0+xis/2+yis, y0+xjs/2+yjs, -yis/2, -xis/2, -yjs/2, -xjs/2, n-1)  # 画右下角分区 
 
-myTurtle = turtle.Turtle()
-myWin = turtle.Screen()
-myTurtle.up()
-myTurtle.goto(0, 0)
-myTurtle.down()
+if __name__ == '__main__':
+    myTurtle = turtle.Turtle()
+    myWin = turtle.Screen()
+    myTurtle.up()
+    myTurtle.goto(0, 0)
+    myTurtle.down()
 
-
-draw_hilbert(myTurtle, 0., 0., 300., 0., 0., 300., 3)
-myWin.exitonclick()
+    draw_hilbert(myTurtle, 0., 0., 300., 0., 0., 300., 3)
+    myWin.exitonclick()

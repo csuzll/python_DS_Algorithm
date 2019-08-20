@@ -18,14 +18,9 @@ def bubbleSort(alist):
                 # 在Python中，可以执行同时赋值。交换操作可以在一个语句中完成
                 alist[i], alist[i+1] = alist[i+1], alist[i] 
 
-alist = [54,26,93,17,77,31,44,55,20]
-bubbleSort(alist)
-print(alist)
-
-
 # 改进冒泡排序，遍历期间没有交换，则认为已排序，可以停止。
 # 通过设置exchange是否交换标志
-def shortBubbleSort(alist):
+def BubbleSort1(alist):
     exchange = True # 是否交换标志 
     passnum = len(alist) - 1 # 最多进行len(alist)-1轮遍历就可以完成排序
     while passnum > 0 and exchange == True:
@@ -36,15 +31,11 @@ def shortBubbleSort(alist):
                 alist[i], alist[i+1] = alist[i+1], alist[i]
         passnum = passnum - 1
 
-alist = [54,26,93,17,77,31,44,55,20]
-shortBubbleSort(alist)
-print(alist)
-
 # 改进冒泡排序2，记录某次遍历时最后发生数据交换的位置，这个位置之后的数据显然已经有序，不用再排序了。
 # 因此通过记录最后发生数据交换的位置就可以确定下次循环的范围了。
 def bubbleSort2(alist):
     length = len(alist) # 列表长度
-    k = length # k为循环的范围，初值值为length
+    k = length # k为循环的范围，初值为length
     for i in range(length):
         flag = True
         for j in range(1, k): # 只遍历到最后交换的位置即可
@@ -53,8 +44,17 @@ def bubbleSort2(alist):
                 k = j  # 记录最后交换的位置
                 flag = False
         if flag:
-            break    
+            break
 
-alist = [54,26,93,17,77,31,44,55,20]
-bubbleSort2(alist)
-print(alist)
+if __name__ == '__main__':
+    alist = [54,26,93,17,77,31,44,55,20]
+    bubbleSort(alist)
+    print(alist)
+
+    alist = [54,26,93,17,77,31,44,55,20]
+    BubbleSort1(alist)
+    print(alist)
+
+    alist = [54,26,93,17,77,31,44,55,20]
+    bubbleSort2(alist)
+    print(alist)

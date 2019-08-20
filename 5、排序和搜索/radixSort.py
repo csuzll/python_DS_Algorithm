@@ -13,15 +13,15 @@ LSD （次位优先法）：从低位开始进行排序
 稳定
 """
 
-
 # 下面这个算法只针对正整数列表。(LSD次位优先)
 def radixSort(alist):
 	mod = 10
 	div = 1
 	mostBit = len(str(max(alist))) # 最大数的位数决定了外循环多少次
 
-	buckets = [[] for _ in range(mod)] # 构造mod个桶
+	buckets = [[] for _ in range(mod)] # 构造mod个桶(一般都是构造10个桶)
 
+	# 放入和取出桶中mostBit次
 	while mostBit:
 		# 将数据放入对应的桶中
 		for num in alist:
@@ -36,6 +36,7 @@ def radixSort(alist):
 		div *= 10
 		mostBit -= 1
 
-alist = [54,26,93,17,77,31,44,55,20]
-radixSort(alist)
-print(alist)
+if __name__ == '__main__':
+	alist = [54,26,93,17,77,31,44,55,20]
+	radixSort(alist)
+	print(alist)

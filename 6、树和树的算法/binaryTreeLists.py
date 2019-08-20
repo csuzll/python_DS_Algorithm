@@ -1,8 +1,6 @@
 '''
-	This is an example of a binary tree data structure created with 
-	python lists as the underlying data structure.
-
-	不会构造二叉树类，写的函数只是帮助操纵一个标准列表，就像正在使用一棵树。
+	多级列表实现树结构
+	写的函数只是帮助操纵一个标准列表，就像正在使用一棵树。
 '''
 # 简单地构造一个具有根节点和两个子列表为空的列表。
 def BinaryTree(r):
@@ -44,36 +42,36 @@ def getLeftChild(root):
 def getRightChild(root):
 	return root[2]
 
+if __name__ == '__main__':
+	r = BinaryTree(3)
+	insertLeft(r,4)
+	insertLeft(r,5)
+	insertRight(r,6)
+	insertRight(r,7)
+	l = getLeftChild(r)
+	print(l)
 
-r = BinaryTree(3)
-insertLeft(r,4)
-insertLeft(r,5)
-insertRight(r,6)
-insertRight(r,7)
-l = getLeftChild(r)
-print(l)
-
-setRootVal(l,9)
-print(r)
-insertLeft(l,11)
-print(r)
-print(getRightChild(getRightChild(r)))
+	setRootVal(l,9)
+	print(r)
+	insertLeft(l,11)
+	print(r)
+	print(getRightChild(getRightChild(r)))
 
 
-# 按例子生成一棵树
-# a(b(None, d), c(e, f))
-def buildTree():
-	b = BinaryTree("a")
-	# Build up the left side of this tree
-	insertLeft(b,'b')
-	insertRight(getLeftChild(b),'d')
+	# 按例子生成一棵树
+	# a(b(None, d), c(e, f))
+	def buildTree():
+		b = BinaryTree("a")
+		# Build up the left side of this tree
+		insertLeft(b,'b')
+		insertRight(getLeftChild(b),'d')
 
-	# Build up the right side of this tree
-	insertRight(b,'c')
-	insertLeft(getRightChild(b),'e')
-	insertRight(getRightChild(b),'f')
+		# Build up the right side of this tree
+		insertRight(b,'c')
+		insertLeft(getRightChild(b),'e')
+		insertRight(getRightChild(b),'f')
 
-	return b
+		return b
 
-ttree = buildTree()
-print(ttree)
+	ttree = buildTree()
+	print(ttree)
