@@ -31,12 +31,28 @@ class DFSGraph(Graph):
         self.time += 1
         startVertex.setFinish(self.time) # 设置起始结点变为黑色之前的步骤数
 
-# 循环打印结点y的前导结点
-def traverse(y):
-    x=y
-    while x != -1:
-        print(x.getId())
-        x = x.getPredecessor()
+    # 拓扑排序(进行深度搜索时每个结点的完成时间从大到小排序就是拓扑排序)
+    def toposort(self):
+        self.dfs()
+        result = []
+        # 目前存放了图的所有顶点
+        for aVertex in self: 
+            result.append(aVertex)
+        # 按访问完成时间从大到小排序
+        result.sort(key = lambda x: x.finish, reverse=True)
+        return result
+
+    # 图的转置(转置之前把图g所有属性回到默认状态)
+    def transpose(self):
+        gt = DFSGraph()
+        for aVertex in self:
+            aVertex.setColor("white")
+            aVertex.setPredecessor(None)
+            aVertex.setDiscovery(0) 
+            aVertex.setFinish(0)
+            for w in aVertex.getConnections():
+                gt.addEdge(w.getId(), aVertex.getId())
+        return gt
 
 if __name__ == '__main__':
     g = DFSGraph()
@@ -52,4 +68,28 @@ if __name__ == '__main__':
     g.addEdge(5, 4, 8)
     g.addEdge(5, 2, 1)
     g.dfs()
-    traverse(g.getVertex(4))
+    for vertex in g:
+        print(vertex.getId(), vertex.discovery)
+
+    gt = g.transpose()
+    for i in range(6):
+        print(gt.getVertex(i))
+
+
+    G = DFSGraph()
+    G.addEdge("3/4_cup_milk", "1_cup_mix")
+    G.addEdge("1_egg", "1_cup_mix")
+    G.addEdge("1_Tbl_Oil", "1_cup_mix")
+    G.addEdge("1_cup_mix", "pour_1/4_cup")
+    G.addEdge("1_cup_mix", "heat_syrup")
+    G.addEdge("heat_syrup", "eat")
+    G.addEdge("heat_griddle", "pour_1/4_cup")
+    G.addEdge("pour_1/4_cup", "turn_when_bubbly")
+    G.addEdge("turn_when_bubbly", "eat")
+    G.dfs()
+    for vertex in G:
+        print(vertex.getId(), vertex.discovery)
+
+    res = G.toposort()
+    for v in res:
+        print(v.getId(), end=" ")

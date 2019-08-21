@@ -49,48 +49,47 @@ class DoubleThreadedBinaryTree(BinarySearchTree):
                 currentNode.rightChild = DoubleThreadedNode(key, val, parent=currentNode)
                 self.size += 1
 
-    # 前序遍历线索化
-    def prevThreading(self):
-        self._prevThreading(self.root)
+    # # 前序遍历线索化
+    # def prevThreading(self):
+    #     self._prevThreading(self.root)
 
-    def _prevThreading(self, tree, prev):
-        """
-        tree: 表示正在访问的结点
-        prev: 表示上一个刚刚访问的结点
-        """
-        if tree:
-            if tree.leftChild == None: # 当前结点左孩子不存在
-                tree.ltag = 1
-                tree.leftChild = prev
-            if prev != None and prev.rightChild == None: # 当前结点的前一个结点的右孩子不存在
-                prev.rtag = 1
-                prev.rightChild = tree
-            prev = tree # prev设置为当前结点
-            if tree.ltag == 0:
-                self._prevThreading(tree.leftChild, prev)
-            if tree.rtag == 0:
-                self._prevThreading(tree.rightChild, prev)
+    # def _prevThreading(self, tree, prev):
+    #     """
+    #     tree: 表示正在访问的结点
+    #     prev: 表示上一个刚刚访问的结点
+    #     """
+    #     if tree:
+    #         if tree.leftChild == None: # 当前结点左孩子不存在
+    #             tree.ltag = 1
+    #             tree.leftChild = prev
+    #         if prev != None and prev.rightChild == None: # 当前结点的前一个结点的右孩子不存在
+    #             prev.rtag = 1
+    #             prev.rightChild = tree
+    #         prev = tree # prev设置为当前结点
+    #         if tree.ltag == 0:
+    #             self._prevThreading(tree.leftChild, prev)
+    #         if tree.rtag == 0:
+    #             self._prevThreading(tree.rightChild, prev)
 
-    # 线索二叉树的前序遍历
-    def prevThreadOrder(self):
-        self._prevThreadOrder(self.root)
+    # # 线索二叉树的前序遍历
+    # def prevThreadOrder(self):
+    #     self._prevThreadOrder(self.root)
 
-    def _prevThreadOrder(self, tree, prev=None):
-        cur = tree
-        # while cur: #树空或已经到最后一个结点时停止循环
-        #     while cur.ltag == 0:
-        #         print(cur.key, end=" ")
-        #         cur = cur.leftChild
-        #     print(cur.key, end = " ")
-        #     cur = cur.rightChild
-        while cur:
-            print(cur.key, end=" ") # 打印结点
-            if cur.ltag == 0: # 当前结点的左孩子存在时，下一个结点为左孩子 
-                cur = cur.leftChild
-            else: # 若左孩子不存在，则下一个结点为当前结点的右孩子 
-                # 若右孩子也不存在，则下一个结点为当前结点的后继 
-                cur = cur.rightChild
-
+    # def _prevThreadOrder(self, tree, prev=None):
+    #     cur = tree
+    #     # while cur: #树空或已经到最后一个结点时停止循环
+    #     #     while cur.ltag == 0:
+    #     #         print(cur.key, end=" ")
+    #     #         cur = cur.leftChild
+    #     #     print(cur.key, end = " ")
+    #     #     cur = cur.rightChild
+    #     while cur:
+    #         print(cur.key, end=" ") # 打印结点
+    #         if cur.ltag == 0: # 当前结点的左孩子存在时，下一个结点为左孩子 
+    #             cur = cur.leftChild
+    #         else: # 若左孩子不存在，则下一个结点为当前结点的右孩子 
+    #             # 若右孩子也不存在，则下一个结点为当前结点的后继 
+    #             cur = cur.rightChild
 
     # 中序线索化二叉搜索树
     def inThreading(self):
@@ -112,7 +111,7 @@ class DoubleThreadedBinaryTree(BinarySearchTree):
             prev = tree # 将前一个结点设置为当前结点，为下一轮作准备 
             self._inThreading(tree.rightChild, prev)
         else:
-            return
+            return None
 
     # 覆盖掉父类的中序遍历方法
     # 线索二叉树的中序遍历

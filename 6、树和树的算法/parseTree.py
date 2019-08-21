@@ -1,6 +1,14 @@
 # 数学表达式的解析树
 # 数学表达式的树叶是操作数，其他结点为操作符
 
+"""
+将一个全括号数学表达式转化为解析树的过程如下：
+1、若碰到"("，为当前结点插入左结点，并移动到左结点
+2、若碰到“+,-,*,/”，设置当前结点的值为该符号，并为当前结点插入右节点，并移动到右结点
+3、若碰到数字，设置当前结点的值为该数字，并移动到其父结点
+4、若碰到")"，移动到当前结点的父结点
+"""
+
 from binaryTree2 import BinaryTree
 import operator
 
@@ -49,6 +57,7 @@ def buildParseTree(fpexp):
                 j = j + 1
             fplist.append(fpexp[i:j])
             i = j
+
     pStack = Stack() # 创建一个栈，存放当前结点的父结点
     # 创建一颗空根结点树
     eTree = BinaryTree('')
@@ -70,30 +79,14 @@ def buildParseTree(fpexp):
             currentTree = currentTree.getRightChild() # 当前结点指向右结点
         elif i == ')':
             currentTree = pStack.pop() # 当前结点指向父结点
-        elif i not in ['+', '-', '*', '/', ')']:
+        elif i not in ['+', '-', '*', '/', '(', ')']:
             try:
                 currentTree.setRootVal(int(i)) # 当前结点的值设置为int(i)
                 parent = pStack.pop() # 当前结点的父结点
                 currentTree = parent # 当前结点指向父结点
-
             except ValueError:
                 raise ValueError("token '{}' is not a valid integer".format(i))
-
     return eTree
-
-# 计算解析树
-def evaluate(parseTree):
-    opers = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
-
-    leftC = parseTree.getLeftChild()
-    rightC = parseTree.getRightChild()
-
-    if leftC and rightC: # 当前结点的左右子结点均非空，则为操作符
-        fn = opers[parseTree.getRootVal()]
-        return fn(evaluate(leftC),evaluate(rightC))
-    else:
-        # 如果左和右结点都为None，那么当前节点是一个叶节点
-        return parseTree.getRootVal()
 
 # 前序遍历解析树
 def preorder(tree):
@@ -116,12 +109,19 @@ def postorder(tree):
         postorder(tree.getRightChild())
         print(tree.getRootVal())
 
-# 计算树高
-def height(tree):
-    if tree == None:
-        return 0
+# 计算解析树
+def evaluate(parseTree):
+    opers = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
+
+    leftC = parseTree.getLeftChild()
+    rightC = parseTree.getRightChild()
+
+    if leftC and rightC: # 当前结点的左右子结点均非空，则为操作符
+        fn = opers[parseTree.getRootVal()]
+        return fn(evaluate(leftC),evaluate(rightC))
     else:
-        return 1 + max(height(tree.leftChild), height(tree.rightChild))
+        # 如果左和右结点都为None，那么当前节点是一个叶节点
+        return parseTree.getRootVal()
 
 # 使用后序遍历计算解析树
 def postordereval(tree):
@@ -135,6 +135,13 @@ def postordereval(tree):
             return opers[tree.getRootVal()](res1, res2)
         else:
             return tree.getRootVal()
+
+# 计算树高
+def height(tree):
+    if tree == None:
+        return 0
+    else:
+        return 1 + max(height(tree.leftChild), height(tree.rightChild))                                                                                                      
 
 # 使用中序遍历还原表达式的完全括号版本（这个方法连操作数都有括号）
 def printexp(tree):
@@ -155,18 +162,6 @@ def printexp2(tree):
         printexp2(tree.getRightChild())
         print(')', end=' ')
 
-# # 改进: 使得操作数没有括号，第二种方法(没成功)
-# def printexp3(tree):
-#     sVal = ""
-#     if tree:
-#         sVal = "(" + printexp(tree.getLeftChild())
-#         sVal = sVal + str(tree.getRootVal())
-#         sVal = sVal + printexp(tree.getRightChild()) + ")"
-#         if tree.getLeftChild() == None and tree.getRightChild() == None: # 叶子结点，操作数
-#             sVal = sVal.strip("()")
-#     return sVal
-
-
 # 存储中序遍历结果
 # def in_order(tree):
 #     inlist = []
@@ -176,54 +171,31 @@ def printexp2(tree):
 #         inlist += in_order(tree.getRightChild())
 #     return inlist
 
-def printexp5(tree):
-    val = ''
-    if tree:
-        val = '('+printexp(tree.getLeftChild())
-        val = val +str(tree.getRootVal())
-        val = val +printexp(tree.getRightChild())+')'
-        if tree.getLeftChild()==None and tree.getRightChild()==None:
-            val = val.strip('()')
-    return val
-
 def main():
-    inString = "( 3 + ( 4 * 5 ) )"
+    inString = "( 3 + (4 * 5 ) )"
     print(inString)
     pt = buildParseTree(inString)
     print(evaluate(pt))
     print(postordereval(pt))
     print("\n")
-    preorder(pt)
-    print("\n") 
-    postorder(pt)
-    print("\n")
-    inorder(pt)
-    print("\n")
+    # preorder(pt)
+    # print("\n") 
+    # postorder(pt)
+    # print("\n")
+    # inorder(pt)
+    # print("\n")
     # res = in_order(pt)
     # print(res)
     # print("\t")
 
-    print(printexp(pt)) # 输出 (((10)+(5))*(3))
+    print(printexp(pt)) # 输出((3)+((4)*(5)))
     print("\t")
 
-    astring = "((12+12)/3)"
-    pt2 = buildParseTree(astring)
-    print(printexp(pt2)) 
-    print(postordereval(pt2))
-    print("\n")
-    # res2 = in_order(pt2)
-    # print(res2)
-
-    printexp2(pt)
-    print("\n")
-
-    # print(printexp3(pt))
-    # print("\n")
+    printexp2(pt) # ( 3 + ( 4 * 5 ) )  
+    print("\t")
 
     # 计算树高
     print(height(pt))
 
 if __name__ == '__main__':
     main()
-
-

@@ -178,7 +178,7 @@ class BinaryTree:
 						node_queue.append(node.rchild)
 				depth += 1
 		return depth
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 	# 递归计算二叉树第k层结点个数
 	def kth_node_count(self, node, k):
 		"""二叉树第k层结点个数 = 二叉树左子树k-1层结点个数 + 二叉树右子树k-1层结点个数"""

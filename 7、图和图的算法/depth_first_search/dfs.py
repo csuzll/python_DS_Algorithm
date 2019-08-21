@@ -8,11 +8,11 @@ G = {'A': ['B', 'C'],
      'E': ['B', 'F'],
      'F': ['C', 'E']}
 
-# depth first search    
+# 简单的遍历
 def dfs(G, start):
-    seen = [start]     # 已访问的结点列表
-    stack = [start]    # 先进后出的栈
-    path = []
+    seen = [start]   # 已发现的结点列表
+    stack = [start]  # 先进后出的栈
+    path = [] # dfs遍历结果
     while stack:
         cur = stack.pop()
         path.append(cur)
@@ -22,4 +22,4 @@ def dfs(G, start):
                 stack.append(vertex)
     return path
 
-print(dfs(G,"C"))
+print(dfs(G,"A"))

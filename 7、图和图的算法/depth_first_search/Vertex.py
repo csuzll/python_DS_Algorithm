@@ -12,8 +12,8 @@ class Vertex:
         该属性意味着深度优先树中的特定节点的所有子节点具有比它们的父节点更晚的发现时间和更早的完成时间
         """
 
-        self.discovery = 0 # 首次访问顶点时之前的步骤数（开始时间）
-        self.finish = 0 # 顶点着色为黑色之前的步骤数（完成时间）
+        self.discovery = 0 # 首次访问顶点时之前的步骤数（发现结点时间）
+        self.finish = 0 # 顶点着色为黑色之前的步骤数（访问结点完成时间）
 
     # 从这个顶点添加一个连接(一条边)到另一个顶点
     def addNeighbor(self, nbr, weight=0):
@@ -44,7 +44,7 @@ class Vertex:
     def setPredecessor(self, predecessor):
         self.predecessor = predecessor
 
-    def getDiscovery(self0):
+    def getDiscovery(self):
         return self.discovery
 
     def setDiscovery(self, dtime):

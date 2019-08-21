@@ -1,26 +1,32 @@
 # 拓扑排序
-from DFSGraph import DFSGraph
-from Vertex import Vertex
 
-def topologicalSort(g):
-    """以完成时间的递减顺序将顶点存储在列表中，这个列表就是拓扑排序的结果"""
-    g.dfs()
-    result = list(g)
-    result.sort(key=lambda x : x.finish, reverse=True)
-    for vert in result:
-        print(vert.getId())
-    
-# vertsName = ["3/4_cup_milk", "1_cup_mix", "1_egg", "1_Tbl_Oil", "heat_syrup", "heat_griddle", "pour_1/4_cup", "turn_when_bubbly", "eat"]
+# 邻接集表示图
+G = {
+    'a': set('bf'), 
+    'b': set('cdf'), 
+    'c': set('d'), 
+    'd': set('ef'), 
+    'e': set('f'), 
+    'f': set()
+}
 
-g = DFSGraph()
-g.addEdge("3/4_cup_milk", "1_cup_mix")
-g.addEdge("1_egg", "1_cup_mix")
-g.addEdge("1_Tbl_Oil", "1_cup_mix")
-g.addEdge("1_cup_mix", "pour_1/4_cup")
-g.addEdge("1_cup_mix", "heat_syrup")
-g.addEdge("heat_syrup", "eat")
-g.addEdge("heat_griddle", "pour_1/4_cup")
-g.addEdge("pour_1/4_cup", "turn_when_bubbly")
-g.addEdge("turn_when_bubbly", "eat")
+def dfs_toposort(g):
+    S = set()
+    res = [] # 排序结果
+    # dfs遍历图
+    def dfs(u):
+        if u in S:
+            return
+        S.add(u)
+        for v in g[u]:
+            if v in S:continue
+            dfs(v)
+        res.append(u)
+    # 检查是否有遗漏的顶点
+    for u in g:
+        dfs(u)
+    # 返回拓扑排序后的顶点列表
+    res.reverse()
+    return res
 
-topologicalSort(g)
+print(dfs_toposort(G))

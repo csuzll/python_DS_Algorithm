@@ -163,7 +163,7 @@ class BinarySearchTree:
                 node = node.leftChild
             while node:
                 # inlist.append(node.key)
-                print(node.key)
+                print(node.key, end=" ")
                 node = node.findSuccessor()
             # return inlist
         else: # 空树
@@ -179,7 +179,7 @@ class BinarySearchTree:
                 node = node.rightChild
             while node:
                 # inlist.insert(0, node.key)
-                print(node.key)
+                print(node.key, end=" ")
                 node = node.findPredecessor()
             # return inlist
         else: # 空树
@@ -192,7 +192,7 @@ class BinarySearchTree:
 
     def _preorder(self, tree):
         if tree:
-            print(tree.key)            
+            print(tree.key, end=" ")            
             self._preorder(tree.leftChild)
             self._preorder(tree.rightChild)
 
@@ -203,7 +203,7 @@ class BinarySearchTree:
     def _inorder(self, tree):
         if tree:
             self._inorder(tree.leftChild)
-            print(tree.key)
+            print(tree.key, end=" ")
             self._inorder(tree.rightChild)
 
     # 二叉搜索树的后序遍历
@@ -214,7 +214,7 @@ class BinarySearchTree:
         if tree:
             self._postorder(tree.rightChild)
             self._postorder(tree.leftChild)
-            print(tree.key)
+            print(tree.key, end=" ")
 
     # 二叉搜索树的层次遍历
     def traverse(self):
@@ -264,6 +264,7 @@ def main():
     # mytree实现了__iter__()方法，则mytree为可迭代对象
     print(list(mytree)) # 输出[2,3,4,6]
     print(list(mytree.root)) # 输出[2,3,4,6]
+    print("\n")
 
     # 测试删除
     # del mytree[6] # 删除的6为叶子结点
@@ -274,10 +275,9 @@ def main():
     # print(list(mytree)) # 输出[2,4,6]
 
     # 中序后继结点实现中序遍历测试
-    print("\n")
     mytree.inorderSucc()
-
     print("\n")
+
     # 中序前驱结点实现中序遍历倒序测试
     mytree.inorderPrec()
     print("\n")
@@ -288,7 +288,7 @@ def main():
     mytree.preorder()
     print("\t")
     mytree.postorder()
-    print("t")
+    print("\t")
 
     # 测试遍历
     mytree.traverse()

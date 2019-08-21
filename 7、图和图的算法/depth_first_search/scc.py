@@ -1,79 +1,73 @@
-from Graph import Graph
-from Vertex import Vertex
+# 求图的强连通分量
 
-class DFSGraph(Graph):
-    def __init__(self):
-        super(DFSGraph, self).__init__()
-        self.time = 0 # 实例变量时间
+# 邻接集表示图
+G = {
+    "a": {"b"},   #a
+    "b": {"c"},   #b
+    "c": {"a","d","g"},   #c
+    "d": {"e"},   #d
+    "e": {"f"},   #e
+    "f": {"d"},   #f
+    "g": {"h"},   #g
+    "h": {"i"},   #h
+    "i": {"g"}    #i
+}
 
-    def dfs(self):
-        # 图中的所有顶点的颜色设置为白色，前导结点设置为（-1）
-        for aVertex in self:
-            aVertex.setColor("white")
-            aVertex.setPredecessor(-1)
-        # 对图中的所有白色顶点进行迭代深度遍历
-        """迭代所有顶点而不是简单地从所选择的起始顶点进行搜索是为了确保图中的所有顶点都被考虑到，没有顶点从深度优先森林中被遗漏。"""
-        nvertex = list(self)
-        nvertex.sort(key=lambda x : x.finish, reverse=True)
-        for aVertex in nvertex:
-            if aVertex.getColor() == "white":
-                self.dfsvisit(aVertex)
-
-    # 从某个起始顶点开始搜索
-    def dfsvisit(self, startVertex):
-        startVertex.setColor("gray") # 起始顶点设置为灰色，代表被访问
-        self.time += 1
-        startVertex.setDiscovery(self.time) # 设置起始顶点访问之前的步骤数
-        for nextVertex in startVertex.getConnections():
-            if nextVertex.getColor() == "white":
-                nextVertex.setPredecessor(startVertex) # 设置起始顶点的邻接顶点的前导结点为起始结点
-                self.dfsvisit(nextVertex) # 递归探索邻接结点
-        startVertex.setColor("black") # 起始结点的邻接结点访问完后，设置为黑色
-        self.time += 1
-        startVertex.setFinish(self.time) # 设置起始结点变为黑色之前的步骤数
-
-# 将图G转置
-def G_transpose(g):
-    gt = DFSGraph()
-    # 转置
-    for aVertex in g:
-        for w in aVertex.getConnections():
-            gt.addEdge(w.getId(), aVertex.getId())
+# 图的翻转
+def transgraph(g):
+    gt = {}
+    for u in g:
+        for v in g[u]:
+            if gt.get(v):
+                gt[v].add(u)
+            else:
+                gt[v] = set()
+                gt[v].add(u)
     return gt
 
+# 图的DFS
+def rec_dfs(g, s, S=None):
+    """
+    g: 图
+    s: 起始结点
+    S: 按顺序发现的结点集，初始时为None
+    """
+    if S is None:
+        S = list() # 存储已遍历的结点
+    S.append(s)
+    # print(S)
+    for u in g[s]:
+        if u in S:
+            continue
+        rec_dfs(G, u, S)
+    return S
+
+# 遍历有向图的强连通图(只能得到一个从参数start出发的连通分量)
+def walk(g, start, S=set()):
+    P, Q = dict(), set() # P存放，Q存放已经遍历的结点
+    P[start] = None # 起始结点的前一个结点为None
+    Q.add(start)
+    while Q:
+        u = Q.pop() # 选择下一个遍历结点（集合具有随机性）
+        for v in g[u].difference(P, S): # u的邻接结点中没有出现在P和S中的结点
+            Q.add(v) 
+            P[v] = u
+    # print(P)
+    return P
+
+# 获得各个强连通分量
 def scc(g):
-    g.dfs()
-    gt = G_transpose(g)
-    gt.dfs()
+    gt = transgraph(g)
 
-if __name__ == '__main__':
-    g = DFSGraph()
+    sccs = [] # 强连通分量列表
+    seen = set() # 已遍历结点集合
 
-    # 添加顶点
-    for i in ["A","B","C","D","E","F","G","H","I"]:
-        g.addVertex(i)
+    for u in rec_dfs(g, "a"): # 以"a"为起点
+        if u in seen:
+            continue
+        C = walk(gt, u, seen)
+        seen.update(C) # 将C中的key添加到seen中
+        sccs.append(C) # C为一个强连通分量，加入强连通分量列表中
+    return sccs
 
-    # 添加边
-    g.addEdge("A", "B")
-    g.addEdge("B", "C")
-    g.addEdge("B", "E")
-    g.addEdge("C", "F")
-    g.addEdge("C", "C")
-    g.addEdge("D", "B")
-    g.addEdge("D", "G")
-    g.addEdge("E", "A")
-    g.addEdge("E", "D")
-    g.addEdge("F", "H")
-    g.addEdge("G", "E")
-    g.addEdge("H", "I")
-    g.addEdge("I", "F")
-
-    # g.dfs()
-    # print(g.getVertex("A").finish)
-
-    # for v in g:
-    #     print(v)
-    # gt = G_transpose(g)
-    # for v in gt:
-    #     print(v)
-
+print(scc(G))
